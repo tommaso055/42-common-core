@@ -1,5 +1,4 @@
-#include <stdarg.h>
-#include <stdlib.h>
+#include "ft_printf.h"
 
 int	ft_putchar_and_str(char c, char *str)
 {
@@ -7,6 +6,7 @@ int	ft_putchar_and_str(char c, char *str)
 	int i;
 
 	i = 0;
+	return_value = 0;
 	if (c)
 		return_value += write(1, &c, 1);
 	if (str)
@@ -44,13 +44,13 @@ int ft_put(char flag, va_list *args)
 	else if (flag == 's')
 		return_value += ft_putchar_and_str(0, va_arg(*args, char *));
 	else if (flag == 'p')
-		return ;
+		return 0;
 	else if (flag == 'd')
 		return_value += ft_putnbr_base(va_arg(*args, int), 10, "0123456789");
 	else if (flag == 'i')
 		return_value += ft_putnbr_base(va_arg(*args, int), 10, "0123456789");
 	else if (flag == 'u')
-		return ;
+		return 0;
 	else if (flag == 'x')
 		return_value += ft_putnbr_base(va_arg(*args, int), 16, "0123456789abcdef");
 	else if (flag == 'X')
@@ -82,3 +82,4 @@ int ft_printf(const char *format, ...)
 	}
 	return (printed_chars);
 }
+
