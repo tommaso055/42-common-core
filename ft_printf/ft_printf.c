@@ -1,48 +1,46 @@
 #include "ft_printf.h"
+#include <stdio.h>
 
-int	ft_putchar_and_str(char c, char *str)
+int	ft_putstr(char *str)
 {
-	int	return_value;
 	int i;
 
 	i = 0;
-	return_value = 0;
-	if (c)
-		return_value += write(1, &c, 1);
-	if (str)
-	{
-		while (str[i])
-			return_value += write(1, &str[i++], 1);
-	}
-	return (return_value);
+	while (str[i])
+		write(1, &str[i++], 1);
+	return (i);
 }
 
 
-int	ft_putnbr_base(int n, int base, char *charset)
+int	ft_putnbr_base(long long n, int base, char *charset)
 {
 	int	return_value;
 
 	return_value = 0;
 	if (n < 0)
 	{
-		return_value += ft_putchar_and_str('-', NULL);
-		n *= -1;
+		return_value += ft_putstr("-");
+		n = -n;
 	}
 	if (n >= base)
 		return_value += ft_putnbr_base(n / base, base, charset);
-	ft_putchar_and_str(charset[n % base], NULL);
+	write(1, &charset[n % base], 1);
 	return (return_value + 1);
 }
 
 int ft_put(char flag, va_list *args)
 {
-	int	return_value;
+	int		return_value;
+	char	c;
 
 	return_value = 0;
 	if (flag == 'c')
-		return_value += ft_putchar_and_str((char)va_arg(*args, int), NULL);
+	{
+		c = va_arg(*args, int);
+		return_value += ft_putstr(&c);
+	}
 	else if (flag == 's')
-		return_value += ft_putchar_and_str(0, va_arg(*args, char *));
+		return_value += ft_putstr(va_arg(*args, char *));
 	else if (flag == 'p')
 		return 0;
 	else if (flag == 'd')
@@ -50,13 +48,13 @@ int ft_put(char flag, va_list *args)
 	else if (flag == 'i')
 		return_value += ft_putnbr_base(va_arg(*args, int), 10, "0123456789");
 	else if (flag == 'u')
-		return 0;
+		return_value += ft_putnbr_base(va_arg(*args, unsigned int), 10, "0123456789");
 	else if (flag == 'x')
-		return_value += ft_putnbr_base(va_arg(*args, int), 16, "0123456789abcdef");
+		return_value += ft_putnbr_base(va_arg(*args, unsigned int), 16, "0123456789abcdef");
 	else if (flag == 'X')
-		return_value += ft_putnbr_base(va_arg(*args, int), 16, "0123456789ABCDEF");
+		return_value += ft_putnbr_base(va_arg(*args, unsigned int), 16, "0123456789ABCDEF");
 	else if (flag == '%')
-		return_value += ft_putchar_and_str('%', NULL);
+		return_value += ft_putstr("%");
 	return (return_value);
 }
 
@@ -83,3 +81,11 @@ int ft_printf(const char *format, ...)
 	return (printed_chars);
 }
 
+
+
+int main()
+{
+    ft_printf("%u", -2);
+	printf("\n%u", -2);
+    return 0;
+}
