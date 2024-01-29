@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-NAME = libft.a
+NAME = libftprintf.a
 CREATELIB = ar -rcs
 ADDLIB = ranlib
 SRCS = ft_printf.c
