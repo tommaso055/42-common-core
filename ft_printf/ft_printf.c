@@ -6,6 +6,8 @@ int	ft_putstr(char *str)
 	int i;
 
 	i = 0;
+	if (str == NULL)
+		return (write(1, "(null)", 6));
 	while (str[i])
 		write(1, &str[i++], 1);
 	return (i);
@@ -28,6 +30,19 @@ int	ft_putnbr_base(long long n, int base, char *charset)
 	return (return_value + 1);
 }
 
+int	ft_putptr_address(unsigned long long n, char *charset, int first)
+{
+	int	return_value;
+
+	return_value = 0;
+	if (first)
+		return_value += write(1, "0x", 2);
+	if (n >= 16)
+		return_value += ft_putptr_address(n / 16, charset, 0);
+	write(1, &charset[n % 16], 1);
+	return (return_value + 1);
+}
+
 int ft_put(char flag, va_list *args)
 {
 	int		return_value;
@@ -37,12 +52,12 @@ int ft_put(char flag, va_list *args)
 	if (flag == 'c')
 	{
 		c = va_arg(*args, int);
-		return_value += ft_putstr(&c);
+		return_value += write(1, &c, 1);
 	}
 	else if (flag == 's')
 		return_value += ft_putstr(va_arg(*args, char *));
 	else if (flag == 'p')
-		return 0;
+		return_value += ft_putptr_address(va_arg(*args, unsigned long long), "0123456789abcdef", 1);
 	else if (flag == 'd')
 		return_value += ft_putnbr_base(va_arg(*args, int), 10, "0123456789");
 	else if (flag == 'i')
@@ -79,13 +94,4 @@ int ft_printf(const char *format, ...)
 		i++;
 	}
 	return (printed_chars);
-}
-
-
-
-int main()
-{
-    ft_printf("%u", -2);
-	printf("\n%u", -2);
-    return 0;
 }
