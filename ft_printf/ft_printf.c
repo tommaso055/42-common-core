@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/31 20:03:02 by tdonato           #+#    #+#             */
+/*   Updated: 2024/01/31 20:03:06 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
-#include <stdio.h>
 
 int	ft_putstr(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str == NULL)
@@ -13,8 +24,7 @@ int	ft_putstr(char *str)
 	return (i);
 }
 
-
-int	ft_putnbr_base(long long n, int base, char *charset)
+int	ft_ptnb(long long n, int base, char *charset)
 {
 	int	return_value;
 
@@ -25,12 +35,12 @@ int	ft_putnbr_base(long long n, int base, char *charset)
 		n = -n;
 	}
 	if (n >= base)
-		return_value += ft_putnbr_base(n / base, base, charset);
+		return_value += ft_ptnb(n / base, base, charset);
 	write(1, &charset[n % base], 1);
 	return (return_value + 1);
 }
 
-int	ft_putptr_address(unsigned long long n, char *charset, int first)
+int	ft_ptr(unsigned long long n, char *charset, int first)
 {
 	int	return_value;
 
@@ -43,41 +53,40 @@ int	ft_putptr_address(unsigned long long n, char *charset, int first)
 	return (return_value + 1);
 }
 
-int ft_put(char flag, va_list *args)
+int	ft_put(char flag, va_list *args, char c)
 {
-	int		return_value;
-	char	c;
+	int		ret;
 
-	return_value = 0;
+	ret = 0;
 	if (flag == 'c')
 	{
 		c = va_arg(*args, int);
-		return_value += write(1, &c, 1);
+		ret += write(1, &c, 1);
 	}
 	else if (flag == 's')
-		return_value += ft_putstr(va_arg(*args, char *));
+		ret += ft_putstr(va_arg(*args, char *));
 	else if (flag == 'p')
-		return_value += ft_putptr_address(va_arg(*args, unsigned long long), "0123456789abcdef", 1);
+		ret += ft_ptr(va_arg(*args, unsigned long long), "0123456789abcdef", 1);
 	else if (flag == 'd')
-		return_value += ft_putnbr_base(va_arg(*args, int), 10, "0123456789");
+		ret += ft_ptnb(va_arg(*args, int), 10, "0123456789");
 	else if (flag == 'i')
-		return_value += ft_putnbr_base(va_arg(*args, int), 10, "0123456789");
+		ret += ft_ptnb(va_arg(*args, int), 10, "0123456789");
 	else if (flag == 'u')
-		return_value += ft_putnbr_base(va_arg(*args, unsigned int), 10, "0123456789");
+		ret += ft_ptnb(va_arg(*args, unsigned int), 10, "0123456789");
 	else if (flag == 'x')
-		return_value += ft_putnbr_base(va_arg(*args, unsigned int), 16, "0123456789abcdef");
+		ret += ft_ptnb(va_arg(*args, unsigned int), 16, "0123456789abcdef");
 	else if (flag == 'X')
-		return_value += ft_putnbr_base(va_arg(*args, unsigned int), 16, "0123456789ABCDEF");
+		ret += ft_ptnb(va_arg(*args, unsigned int), 16, "0123456789ABCDEF");
 	else if (flag == '%')
-		return_value += ft_putstr("%");
-	return (return_value);
+		ret += ft_putstr("%");
+	return (ret);
 }
 
-int ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
-	va_list args;
-	size_t  i;
-	size_t  printed_chars;
+	va_list	args;
+	size_t	i;
+	size_t	printed_chars;
 
 	i = 0;
 	printed_chars = 0;
@@ -85,7 +94,7 @@ int ft_printf(const char *format, ...)
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
-			printed_chars += ft_put(format[++i], &args);
+			printed_chars += ft_put(format[++i], &args, '\0');
 		else
 		{
 			write(1, &format[i], 1);
