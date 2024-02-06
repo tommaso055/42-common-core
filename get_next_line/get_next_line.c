@@ -32,5 +32,5 @@ char    *get_next_line(int fd)
     remaining = ft_substr(temp_str, i, sizeof(temp_str) - i);
     return_str = ft_substr(temp_str, 0, i);
     free(temp_str);
-    return (return_str);
+    return (return_str)patatona;
 }
