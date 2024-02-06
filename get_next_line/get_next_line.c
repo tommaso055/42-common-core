@@ -8,11 +8,11 @@ char	*get_next_line(int fd)
 	int			keep_itering;
 	char		*buffer;
 	char		*return_str;
+	int			bytes_read;
 
 	i = 0;
 	keep_itering = 1;
-	remaining = NULL;
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = malloc(BUFFER_SIZE);
 	if (remaining)
 	{
 		temp_str = malloc(ft_strlen(remaining) + 1);
