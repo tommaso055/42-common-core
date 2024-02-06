@@ -61,7 +61,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	size_t	s_len;
 
-	if (!s || len < 0)
+	if (!s || len == 0)
 		return (NULL);
 	i = 0;
 	s_len = ft_strlen(s);
