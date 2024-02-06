@@ -1,5 +1,37 @@
 #include "get_next_line.h"
 
+size_t	ft_strlen(const char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (*str)
+	{
+		str++;
+		len++;
+	}
+	return (len);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	if (size > 0)
+	{
+		while (i < size - 1 && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	while (src[i])
+		i++;
+	return (i);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
