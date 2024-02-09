@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -8,17 +9,17 @@ char	*get_next_line(int fd)
 	int			keep_itering;
 	char		*buffer;
 	char		*return_str;
-	int			bytes_read;
 
 	i = 0;
 	keep_itering = 1;
-	buffer = malloc(BUFFER_SIZE);
+	buffer = malloc(BUFFER_SIZE + 1);
 	if (remaining)
 	{
 		temp_str = malloc(ft_strlen(remaining) + 1);
 		if (!temp_str)
 			return (NULL);
 		ft_strlcpy(temp_str, remaining, BUFFER_SIZE);
+		printf("%s (end)\n", temp_str);
 	}
 	else
 	{
@@ -38,8 +39,8 @@ char	*get_next_line(int fd)
 		if (keep_itering)
 		{
 			read(fd, buffer, BUFFER_SIZE);
-			if (!buffer)
-				return (NULL);
+			// if (!buffer)
+			// 	return (NULL);
 			temp_str = ft_strjoin(temp_str, buffer);
 		}
 	}
@@ -49,30 +50,25 @@ char	*get_next_line(int fd)
 }
 
 #include <fcntl.h>
-#include <stdio.h>
 int main()
 {
-	int fd; // Assuming you have a file descriptor to test with
-
-	// Open the file or use another method to obtain the file descriptor
+	int fd;
 	fd = open("get_next_line.c", O_RDONLY);
-
 	if (fd == -1)
 	{
 		perror("Error opening file");
 		return 1;
 	}
-
 	char *line;
 
-	// Call get_next_line in a loop until the end of the file is reached
-	while ((line = get_next_line(fd)) != NULL)
+	int i = 20;
+	while (i--)
+	// while ((line = get_next_line(fd)) != NULL)
 	{
+		line = get_next_line(fd);
 		printf("%s", line);
 		free(line);
 	}
-
 	close(fd);
-
 	return 0;
 }
