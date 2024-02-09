@@ -19,7 +19,6 @@ char	*get_next_line(int fd)
 		if (!temp_str)
 			return (NULL);
 		ft_strlcpy(temp_str, remaining, BUFFER_SIZE);
-		printf("%s (end)\n", temp_str);
 	}
 	else
 	{
@@ -30,6 +29,8 @@ char	*get_next_line(int fd)
 	}
 	while (keep_itering)
 	{
+		if (temp_str[i] == -1)
+			return (NULL);
 		while (temp_str[i] != '\0' && keep_itering)
 		{
 			if(temp_str[i] == '\n')
@@ -38,14 +39,18 @@ char	*get_next_line(int fd)
 		}
 		if (keep_itering)
 		{
-			read(fd, buffer, BUFFER_SIZE);
-			// if (!buffer)
-			// 	return (NULL);
+			if (read(fd, buffer, BUFFER_SIZE) == 0)
+				return (NULL);
+			printf("#\n#\n#\n%s <-(buffer)\n", buffer);
+			printf("%s <-(temp_str)\n", temp_str);
 			temp_str = ft_strjoin(temp_str, buffer);
+			printf("%s <-(all)\n#\n#\n#\n", temp_str);
 		}
 	}
+	printf("%s <-(stringa da printare fino al %d carattere\n#\n#\n)", return_str, (int)i);
 	remaining = ft_substr(temp_str, i, sizeof(temp_str) - i);
 	return_str = ft_substr(temp_str, 0, i);
+	printf("%s <-(stringa printata)\n", return_str);
 	return (return_str);
 }
 
@@ -66,7 +71,7 @@ int main()
 	// while ((line = get_next_line(fd)) != NULL)
 	{
 		line = get_next_line(fd);
-		printf("%s", line);
+		// printf("%s", line);
 		free(line);
 	}
 	close(fd);
