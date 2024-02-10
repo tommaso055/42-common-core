@@ -13,7 +13,7 @@ size_t	ft_strlen(const char *str)
 	return (len);
 }
 
-size_t	ft_strlcpy(char *dst, char *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 
@@ -32,7 +32,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;
@@ -55,7 +55,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (ans);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substring;
 	size_t	i;
