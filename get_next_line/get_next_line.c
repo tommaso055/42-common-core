@@ -18,7 +18,7 @@ char	*get_next_line(int fd)
 		temp_str = malloc(ft_strlen(remaining) + 1);
 		if (!temp_str)
 			return (NULL);
-		ft_strlcpy(temp_str, remaining, BUFFER_SIZE);
+		ft_strlcpy(temp_str, remaining, ft_strlen(remaining) + 1);
 	}
 	else
 	{
@@ -47,7 +47,7 @@ char	*get_next_line(int fd)
 			printf("%s <-(all)\n#\n#\n#\n", temp_str);
 		}
 	}
-	printf("%s <-(stringa da printare fino al %d carattere\n#\n#\n)", return_str, (int)i);
+	printf("%s <-(stringa da printare in parte\n#\n#\n)", return_str);
 	remaining = ft_substr(temp_str, i, sizeof(temp_str) - i);
 	return_str = ft_substr(temp_str, 0, i);
 	printf("%s <-(stringa printata)\n", return_str);
