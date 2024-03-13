@@ -32,7 +32,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -50,8 +50,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s1[++i])
 		ans[i] = s1[i];
 	while (s2[++j])
-		ans[i + j] = s2[j];
+		ans[i	 + j] = s2[j];
 	ans[i + j] = '\0';
+	free(s1);
+	free(s2);
 	return (ans);
 }
 
