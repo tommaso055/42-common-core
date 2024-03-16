@@ -13,7 +13,7 @@ char	*get_next_line(int fd)
 		return(NULL);
 	i = 0;
 	keep_itering = 1;
-	if (remaining)
+	if (remaining && *remaining != 0)
 	{
 		temp_str = malloc(ft_strlen(remaining) + 1);
 		if (!temp_str)
