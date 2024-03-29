@@ -2,86 +2,86 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	len;
+size_t	ft_strlen(const char *str)
+{
+	size_t	len;
 
-// 	len = 0;
-// 	while (*str)
-// 	{
-// 		str++;
-// 		len++;
-// 	}
-// 	return (len);
-// }
+	len = 0;
+	while (*str)
+	{
+		str++;
+		len++;
+	}
+	return (len);
+}
 
-// size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-// {
-// 	size_t	i;
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	if (size > 0)
-// 	{
-// 		while (i < size - 1 && src[i])
-// 		{
-// 			dst[i] = src[i];
-// 			i++;
-// 		}
-// 		dst[i] = '\0';
-// 	}
-// 	while (src[i])
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	if (size > 0)
+	{
+		while (i < size - 1 && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	while (src[i])
+		i++;
+	return (i);
+}
 
-// char	*ft_strjoin(char *s1, char *s2)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*ans;
-// 	int		space_to_allocate;
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*ans;
+	int		space_to_allocate;
 
-// 	if (!s1 || !s2)
-// 		return (NULL);
-// 	i = -1;
-// 	j = -1;
-// 	space_to_allocate = ft_strlen(s1) + ft_strlen(s2) + 1;
-// 	ans = (char *)malloc(space_to_allocate * sizeof(char));
-// 	if (ans == NULL)
-// 		return (NULL);
-// 	while (s1[++i])
-// 		ans[i] = s1[i];
-// 	while (s2[++j])
-// 		ans[i	 + j] = s2[j];
-// 	ans[i + j] = '\0';
-// 	free(s1);
-// 	free(s2);
-// 	return (ans);
-// }
+	if (!s1 || !s2)
+		return (NULL);
+	i = -1;
+	j = -1;
+	space_to_allocate = ft_strlen(s1) + ft_strlen(s2) + 1;
+	ans = (char *)malloc(space_to_allocate * sizeof(char));
+	if (ans == NULL)
+		return (NULL);
+	while (s1[++i])
+		ans[i] = s1[i];
+	while (s2[++j])
+		ans[i	 + j] = s2[j];
+	ans[i + j] = '\0';
+	free(s1);
+	free(s2);
+	return (ans);
+}
 
-// char	*ft_substr(char const *s, unsigned int start, size_t len)
-// {
-// 	char	*substring;
-// 	size_t	i;
-// 	size_t	s_len;
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*substring;
+	size_t	i;
+	size_t	s_len;
 
-// 	if (!s || len == 0)
-// 		return (NULL);
-// 	i = 0;
-// 	s_len = ft_strlen(s);
-// 	if (s_len < len)
-// 		len = s_len;
-// 	substring = (char *)malloc((len + 1) * sizeof(char));
-// 	if (substring == NULL)
-// 		return (NULL);
-// 	while (i < len && start <= s_len)
-// 	{
-// 		substring[i] = s[i + start];
-// 		i++;
-// 	}
-// 	substring[i] = '\0';
-// 	return (substring);
-// }
+	if (!s || len == 0)
+		return (NULL);
+	i = 0;
+	s_len = ft_strlen(s);
+	if (s_len < len)
+		len = s_len;
+	substring = (char *)malloc((len + 1) * sizeof(char));
+	if (substring == NULL)
+		return (NULL);
+	while (i < len && start <= s_len)
+	{
+		substring[i] = s[i + start];
+		i++;
+	}
+	substring[i] = '\0';
+	return (substring);
+}
 
 
 // char	*get_next_line(int fd)
@@ -212,7 +212,9 @@ char	*get_next_line(int fd)
 	{
 		if (*temp_str && **temp_str != 0)
 			return (*temp_str);
-		free(temp_str); // prova
+		free(remaining);
+		free(*temp_str);
+		free(temp_str);
 		return (NULL);
 	}
 	remaining = (char **)malloc(sizeof(char *));
@@ -224,15 +226,15 @@ char	*get_next_line(int fd)
 }
 
 
-int main() {
-	int fd = open("get_next_line.h", O_RDONLY);
-	char *c = get_next_line(fd);
-	while(c)
-	{
-		printf("%s", c);
-		free(c);
-		c = get_next_line(fd);
-	}
-	free(c);
-	return 0;
-}
+// int main() {
+// 	int fd = open("get_next_line.h", O_RDONLY);
+// 	char *c = get_next_line(fd);
+// 	while(c)
+// 	{
+// 		printf("%s", c);
+// 		free(c);
+// 		c = get_next_line(fd);
+// 	}
+// 	free(c);
+// 	return 0;
+// }
