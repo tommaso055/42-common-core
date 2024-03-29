@@ -206,29 +206,33 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return(NULL);
+	temp_str = (char **)malloc(sizeof(char *));
 	nli = set_temp(fd, remaining, temp_str);
 	if (nli < 0)
 	{
 		if (*temp_str && **temp_str != 0)
 			return (*temp_str);
+		free(temp_str); // prova
 		return (NULL);
 	}
 	remaining = (char **)malloc(sizeof(char *));
 	*remaining = ft_substr(*temp_str, nli, ft_strlen(*temp_str + nli));
-	return_str = ft_substr(*temp_str, 0, nli); 
+	return_str = ft_substr(*temp_str, 0, nli);
+	free(*temp_str);
+	free(temp_str);
 	return (return_str);
 }
 
 
-// int main() {
-// 	int fd = open("get_next_line.h", O_RDONLY);
-// 	char *c = get_next_line(fd);
-// 	while(c)
-// 	{
-// 		printf("%s", c);
-// 		free(c);
-// 		c = get_next_line(fd);
-// 	}
-// 	free(c);
-// 	return 0;
-// }
+int main() {
+	int fd = open("get_next_line.h", O_RDONLY);
+	char *c = get_next_line(fd);
+	while(c)
+	{
+		printf("%s", c);
+		free(c);
+		c = get_next_line(fd);
+	}
+	free(c);
+	return 0;
+}
