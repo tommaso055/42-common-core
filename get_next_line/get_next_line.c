@@ -144,9 +144,9 @@
 
 int	init_temp(int fd, char **remaining, char **temp_str)
 {
-	if (remaining && *remaining && **remaining != 0)
+	if (remaining && *remaining && **remaining != 0) // in caso frealo
 	{
-		*temp_str = malloc(ft_strlen(*remaining) + 1);
+		*temp_str = (char *)malloc(ft_strlen(*remaining) + 1);
 		if (!(*temp_str))
 			return (-1);
 		ft_strlcpy(*temp_str, *remaining, ft_strlen(*remaining) + 1);
@@ -156,6 +156,11 @@ int	init_temp(int fd, char **remaining, char **temp_str)
 	}
 	else
 	{
+		if (remaining && *remaining && **remaining == 0)
+		{
+			free(*remaining);
+			free(remaining);
+		}
 		*temp_str = malloc(BUFFER_SIZE + 1);
 		if (!(*temp_str))
 			return (-1);
@@ -210,12 +215,12 @@ char	*get_next_line(int fd)
 	nli = set_temp(fd, remaining, temp_str);
 	if (nli < 0)
 	{
+		return_str = NULL;
 		if (*temp_str && **temp_str != 0)
-			return (*temp_str);
-		free(remaining);
+			return_str = *temp_str;
 		free(*temp_str);
 		free(temp_str);
-		return (NULL);
+		return (return_str);
 	}
 	remaining = (char **)malloc(sizeof(char *));
 	*remaining = ft_substr(*temp_str, nli, ft_strlen(*temp_str + nli));
