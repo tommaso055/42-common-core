@@ -215,12 +215,11 @@ char	*get_next_line(int fd)
 	nli = set_temp(fd, remaining, temp_str);
 	if (nli < 0)
 	{
-		return_str = NULL;
 		if (*temp_str && **temp_str != 0)
-			return_str = *temp_str;
+			return(temp_str);
 		free(*temp_str);
 		free(temp_str);
-		return (return_str);
+		return (NULL);
 	}
 	remaining = (char **)malloc(sizeof(char *));
 	*remaining = ft_substr(*temp_str, nli, ft_strlen(*temp_str + nli));
