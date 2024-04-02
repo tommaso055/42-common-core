@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/02 16:51:07 by tdonato           #+#    #+#             */
+/*   Updated: 2024/04/02 16:51:10 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include <fcntl.h>
 #include <stdio.h>
@@ -35,10 +47,10 @@ ssize_t	set_temp(int fd, char **remaining, char **temp_str, size_t i)
 	while (keep_itering)
 	{
 		while (temp_str[0][i] != 0 && keep_itering)
-			if(temp_str[0][i++] == '\n')
+			if (temp_str[0][i++] == '\n')
 				keep_itering = 0;
 		if (keep_itering)
-		{		
+		{
 			buffer = malloc(BUFFER_SIZE + 1);
 			if (read(fd, buffer, BUFFER_SIZE) <= 0)
 			{
@@ -59,12 +71,12 @@ char	*get_next_line(int fd)
 	ssize_t		nli;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return(NULL);
+		return (NULL);
 	nli = set_temp(fd, &remaining, &temp_str, 0);
 	if (nli < 0)
 	{
 		if (nli == -2)
-			return(temp_str);
+			return (temp_str);
 		free(temp_str);
 		return (NULL);
 	}
