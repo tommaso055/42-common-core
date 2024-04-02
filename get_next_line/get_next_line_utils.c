@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/02 16:51:33 by tdonato           #+#    #+#             */
+/*   Updated: 2024/04/02 16:51:37 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *str)
@@ -50,7 +62,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s1[++i])
 		ans[i] = s1[i];
 	while (s2[++j])
-		ans[i	 + j] = s2[j];
+		ans[i + j] = s2[j];
 	ans[i + j] = '\0';
 	free(s1);
 	free(s2);
