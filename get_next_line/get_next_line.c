@@ -86,28 +86,28 @@ char	*get_next_line(int fd)
 	return (return_str);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
+// #include <fcntl.h>
+// #include <stdio.h>
 
-int main(void)
-{
-    int fd;
-    char *line;
+// int main(void)
+// {
+//     int fd;
+//     char *line;
 
-    fd = open("test.txt", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Failed to open file");
-        return 1;
-    }
+//     fd = open("test.txt", O_RDONLY);
+//     if (fd == -1)
+//     {
+//         perror("Failed to open file");
+//         return 1;
+//     }
 
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s\n", line);
-        free(line);
-    }
+//     while ((line = get_next_line(fd)) != NULL)
+//     {
+//         printf("%s\n", line);
+//         free(line);
+//     }
 
-    close(fd);
-    return 0;
-}
+//     close(fd);
+//     return 0;
+// }
 
