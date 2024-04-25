@@ -19,7 +19,7 @@ size_t	ft_strlen(const char *str)
 	size_t	len;
 
 	len = 0;
-	while (*str)
+	while (str && *str)
 	{
 		str++;
 		len++;
@@ -95,41 +95,44 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substring);
 }
 
-
-int	init_temp(int fd, char **remaining, char **temp_str)
+char	*initialize_from(int fd, char *remaining)
 {
-	if (remaining && *remaining && **remaining != 0)
-	{
-		*temp_str = malloc(ft_strlen(*remaining) + 1);
-		if (!(*temp_str))
-			return (-1);
-		ft_strlcpy(*temp_str, *remaining, ft_strlen(*remaining) + 1);
-		free(*remaining);
-		return (1);
-	}
+	int		space_to_allocate;
+	char	*return_str;
+
+	space_to_allocate = BUFFER_SIZE + 1;
+	if (ft_strlen(remaining))
+		space_to_allocate = ft_strlen(remaining) + 1;
+
+	return_str = malloc(space_to_allocate);
+	if (!return_str)
+		return (NULL);
+
+	if (ft_strlen(remaining))
+		ft_strlcpy(return_str, remaining, ft_strlen(remaining) + 1);
 	else
 	{
-		*temp_str = malloc(BUFFER_SIZE + 1);
-		if (!(*temp_str))
-			return (-1);
-		if (read(fd, *temp_str, BUFFER_SIZE) <= 0)
-			return (-1);
-		return (1);
+		if (read(fd, return_str, BUFFER_SIZE) <= 0)
+			{
+				free(return_str);
+				return_str = NULL;
+			}
 	}
+	return (return_str);
 }
 
-ssize_t	set_temp(int fd, char **remaining, char **temp_str, size_t i)
+void	until_nl(int fd, char **next_line)
 {
+	size_t		i;
 	int			keep_itering;
 	char		*buffer;
 
+	i = 0;
 	keep_itering = 1;
-	if (init_temp(fd, remaining, temp_str) < 0)
-		return (-1);
 	while (keep_itering)
 	{
-		while (temp_str[0][i] != 0 && keep_itering)
-			if (temp_str[0][i++] == '\n')
+		while (next_line[0][i] != 0 && keep_itering)
+			if (next_line[0][i++] == '\n')
 				keep_itering = 0;
 		if (keep_itering)
 		{
@@ -137,34 +140,46 @@ ssize_t	set_temp(int fd, char **remaining, char **temp_str, size_t i)
 			if (read(fd, buffer, BUFFER_SIZE) <= 0)
 			{
 				free(buffer);
-				return (-2);
+				return ;
 			}
-			*temp_str = ft_strjoin(*temp_str, buffer);
+			*next_line = ft_strjoin(*next_line, buffer);
 		}
 	}
-	return (i);
+}
+
+ssize_t	get_nl_index(char *next_line)
+{
+	ssize_t	index;
+
+	index = 0;
+	while(next_line[index] != 0)
+	{
+		if (next_line[index++] == '\n')
+			return (index);
+		index++;
+	}
+	return (-1);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*remaining;
-	char		*temp_str;
+	char		*next_line;
+	ssize_t		index;
 	char		*return_str;
-	ssize_t		nli;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	next_line = initialize_from(fd, (char *)remaining);
+	free(remaining);
+	if (!next_line)
 		return (NULL);
-	nli = set_temp(fd, &remaining, &temp_str, 0);
-	if (nli < 0)
-	{
-		if (nli == -2)
-			return (temp_str);
-		free(temp_str);
-		return (NULL);
-	}
-	remaining = ft_substr(temp_str, nli, ft_strlen(temp_str + nli));
-	return_str = ft_substr(temp_str, 0, nli);
-	free(temp_str);
+	
+	until_nl(fd, &next_line);
+	index = get_nl_index(next_line);
+	if (index == -1)
+		return (next_line);
+	remaining = ft_substr(next_line, index, ft_strlen(next_line + index));
+	return_str = ft_substr(next_line, 0, index);
+	free(next_line);
 	return (return_str);
 }
 
@@ -173,23 +188,22 @@ char	*get_next_line(int fd)
 
 int main(void)
 {
-    int fd;
-    char *line;
+	int fd;
+	char *line;
 
-    fd = open("gnlTester-master/files/nl", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Failed to open file");
-        return 1;
-    }
+	fd = open("get_next_line.h", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Failed to open file");
+		return 1;
+	}
 
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s\n", line);
-        free(line);
-    }
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
 
-    close(fd);
-    return 0;
+	close(fd);
+	return 0;
 }
-
