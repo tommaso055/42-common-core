@@ -14,87 +14,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (str && *str)
-	{
-		str++;
-		len++;
-	}
-	return (len);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (i < size - 1 && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	while (src[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*ans;
-	int		space_to_allocate;
-
-	if (!s1 || !s2)
-		return (NULL);
-	i = -1;
-	j = -1;
-	space_to_allocate = ft_strlen(s1) + ft_strlen(s2) + 1;
-	ans = (char *)malloc(space_to_allocate * sizeof(char));
-	if (ans == NULL)
-		return (NULL);
-	while (s1[++i])
-		ans[i] = s1[i];
-	while (s2[++j])
-		ans[i + j] = s2[j];
-	ans[i + j] = '\0';
-	free(s1);
-	free(s2);
-	return (ans);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*substring;
-	size_t	i;
-	size_t	s_len;
-
-	if (!s || len == 0)
-		return (NULL);
-	i = 0;
-	s_len = ft_strlen(s);
-	if (s_len < len)
-		len = s_len;
-	substring = (char *)malloc((len + 1) * sizeof(char));
-	if (substring == NULL)
-		return (NULL);
-	while (i < len && start <= s_len)
-	{
-		substring[i] = s[i + start];
-		i++;
-	}
-	substring[i] = '\0';
-	return (substring);
-}
-
 char	*initialize_from(int fd, char *remaining)
 {
 	int		space_to_allocate;
@@ -156,7 +75,6 @@ ssize_t	get_nl_index(char *next_line)
 	{
 		if (next_line[index++] == '\n')
 			return (index);
-		index++;
 	}
 	return (-1);
 }
@@ -176,34 +94,12 @@ char	*get_next_line(int fd)
 	until_nl(fd, &next_line);
 	index = get_nl_index(next_line);
 	if (index == -1)
+	{
+		remaining = NULL;
 		return (next_line);
+	}
 	remaining = ft_substr(next_line, index, ft_strlen(next_line + index));
 	return_str = ft_substr(next_line, 0, index);
 	free(next_line);
 	return (return_str);
-}
-
-#include <fcntl.h>
-#include <stdio.h>
-
-int main(void)
-{
-	int fd;
-	char *line;
-
-	fd = open("get_next_line.h", O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Failed to open file");
-		return 1;
-	}
-
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-
-	close(fd);
-	return 0;
 }
