@@ -103,3 +103,19 @@ char	*get_next_line(int fd)
 	free(next_line);
 	return (return_str);
 }
+
+#include <fcntl.h>
+#include <stdio.h>
+
+int main() {
+	int fd = open("get_next_line.h", O_RDONLY);
+	char *c = get_next_line(fd);
+	while(c != NULL)
+	{
+		printf("%s", c);
+		free(c);
+		c = get_next_line(fd);
+	}
+	free(c);
+	return 0;
+}
