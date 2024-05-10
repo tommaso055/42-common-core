@@ -31,6 +31,7 @@ int		contains(char *str, char c)
 
 	if (!str)
 		return (0);
+	i = 0;
 	while (str[i])
 	{
 		if (str[i++] == c)
@@ -58,50 +59,57 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *back, char *buff)
 {
-	int		i;
-	int		j;
-	char	*ans;
-	int		space_to_allocate;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	if (!s1 || !s2)
+	if (!back)
+	{
+		back = malloc(1 * sizeof(char));
+		back[0] = '\0';
+	}
+	if (!back || !buff)
+		return (NULL);
+	str = malloc(sizeof(char) * ((ft_strlen(back) + ft_strlen(buff)) + 1));
+	if (str == NULL)
 		return (NULL);
 	i = -1;
-	j = -1;
-	space_to_allocate = ft_strlen(s1) + ft_strlen(s2) + 1;
-	ans = (char *)malloc(space_to_allocate * sizeof(char));
-	if (ans == NULL)
-		return (NULL);
-	while (s1[++i])
-		ans[i] = s1[i];
-	while (s2[++j])
-		ans[i + j] = s2[j];
-	ans[i + j] = '\0';
-	free(s1);
-	return (ans);
+	j = 0;
+	if (back)
+		while (back[++i] != '\0')
+			str[i] = back[i];
+	while (buff[j] != '\0')
+		str[i++] = buff[j++];
+	str[ft_strlen(back) + ft_strlen(buff)] = '\0';
+	free (back);
+	return (str);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len, int free_s)
 {
 	char	*substring;
 	size_t	i;
 	size_t	s_len;
 
-	if (!s || len == 0)
-		return (NULL);
 	i = 0;
-	s_len = ft_strlen(s);
-	if (s_len < len)
-		len = s_len;
+	if (!s || !s[i] || len == 0)
+	{
+		if (free_s)
+			free(s);
+		return (NULL);
+	}
 	substring = (char *)malloc((len + 1) * sizeof(char));
 	if (substring == NULL)
 		return (NULL);
-	while (i < len && start <= s_len)
+	while (i < len && start <= ft_strlen(s))
 	{
 		substring[i] = s[i + start];
 		i++;
 	}
 	substring[i] = '\0';
+	if (free_s)
+		free(s);
 	return (substring);
 }
