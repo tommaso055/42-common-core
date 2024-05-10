@@ -45,6 +45,7 @@ void	until_nl(int fd, char **next_line)
 	size_t		i;
 	int			keep_itering;
 	char		*buffer;
+	int			bytes;
 
 	i = 0;
 	keep_itering = 1;
@@ -56,11 +57,13 @@ void	until_nl(int fd, char **next_line)
 		if (keep_itering)
 		{
 			buffer = malloc(BUFFER_SIZE + 1);
-			if (read(fd, buffer, BUFFER_SIZE) <= 0)
+			bytes = read(fd, buffer, BUFFER_SIZE);
+			if (bytes <= 0)
 			{
 				free(buffer);
 				return ;
 			}
+			buffer[bytes] = '\0';
 			*next_line = ft_strjoin(*next_line, buffer);
 		}
 	}
@@ -104,18 +107,18 @@ char	*get_next_line(int fd)
 	return (return_str);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
+// #include <fcntl.h>
+// #include <stdio.h>
 
-int main() {
-	int fd = open("get_next_line.h", O_RDONLY);
-	char *c = get_next_line(fd);
-	while(c != NULL)
-	{
-		printf("%s", c);
-		free(c);
-		c = get_next_line(fd);
-	}
-	free(c);
-	return 0;
-}
+// int main() {
+// 	int fd = open("get_next_line.h", O_RDONLY);
+// 	char *c = get_next_line(fd);
+// 	while(c != NULL)
+// 	{
+// 		printf("%s", c);
+// 		free(c);
+// 		c = get_next_line(fd);
+// 	}
+// 	free(c);
+// 	return 0;
+// }
