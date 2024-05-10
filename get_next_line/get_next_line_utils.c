@@ -25,7 +25,7 @@ size_t	ft_strlen(const char *str)
 	return (len);
 }
 
-int		contains(char *str, char c)
+int	contains(char *str, char c)
 {
 	int	i;
 
@@ -38,25 +38,6 @@ int		contains(char *str, char c)
 			return (1);
 	}
 	return (0);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (i < size - 1 && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	while (src[i])
-		i++;
-	return (i);
 }
 
 char	*ft_strjoin(char *back, char *buff)
