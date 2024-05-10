@@ -14,109 +14,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-// size_t	ft_strlen(const char *str)
-// {
-// 	size_t	len;
-
-// 	len = 0;
-// 	while (str && *str != 0)
-// 	{
-// 		str++;
-// 		len++;
-// 	}
-// 	return (len);
-// }
-
-// int		contains(char *str, char c)
-// {
-// 	int	i;
-
-// 	if (!str)
-// 		return (0);
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i++] == c)
-// 			return (1);
-// 	}
-// 	return (0);
-// }
-
-// size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	if (size > 0)
-// 	{
-// 		while (i < size - 1 && src[i])
-// 		{
-// 			dst[i] = src[i];
-// 			i++;
-// 		}
-// 		dst[i] = '\0';
-// 	}
-// 	while (src[i])
-// 		i++;
-// 	return (i);
-// }
-
-// char	*ft_strjoin(char *back, char *buff)
-// {
-// 	char	*str;
-// 	size_t	i;
-// 	size_t	j;
-
-// 	if (!back)
-// 	{
-// 		back = malloc(1 * sizeof(char));
-// 		back[0] = '\0';
-// 	}
-// 	if (!back || !buff)
-// 		return (NULL);
-// 	str = malloc(sizeof(char) * ((ft_strlen(back) + ft_strlen(buff)) + 1));
-// 	if (str == NULL)
-// 		return (NULL);
-// 	i = -1;
-// 	j = 0;
-// 	if (back)
-// 		while (back[++i] != '\0')
-// 			str[i] = back[i];
-// 	while (buff[j] != '\0')
-// 		str[i++] = buff[j++];
-// 	str[ft_strlen(back) + ft_strlen(buff)] = '\0';
-// 	free (back);
-// 	return (str);
-// }
-
-// char	*ft_substr(char *s, unsigned int start, size_t len, int free_s)
-// {
-// 	char	*substring;
-// 	size_t	i;
-// 	size_t	s_len;
-
-// 	i = 0;
-// 	if (!s || !s[i] || len == 0)
-// 	{
-// 		if (free_s)
-// 			free(s);
-// 		return (NULL);
-// 	}
-// 	substring = (char *)malloc((len + 1) * sizeof(char));
-// 	if (substring == NULL)
-// 		return (NULL);
-// 	while (i < len && start <= ft_strlen(s))
-// 	{
-// 		substring[i] = s[i + start];
-// 		i++;
-// 	}
-// 	substring[i] = '\0';
-// 	if (free_s)
-// 		free(s);
-// 	return (substring);
-// }
-
-
 char	*readfile(int fd, char *static_memory)
 {
 	int		bytes;
@@ -152,39 +49,19 @@ ssize_t	get_nl_index(char *static_memory)
 	return (index);
 }
 
-
 char	*get_next_line(int fd)
 {
-	static char	*static_memory;
+	static char	*static_mem;
 	char		*current_line;
 	ssize_t		index;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	static_memory = readfile(fd, static_memory);
-	if (!static_memory)
+	static_mem = readfile(fd, static_mem);
+	if (!static_mem)
 		return (NULL);
-	index = get_nl_index(static_memory);
-	current_line = ft_substr(static_memory, 0, index, 0);
-	static_memory = ft_substr(static_memory, index, ft_strlen(static_memory + index), 1);
-	// current_line = ft_writing(static_memory);
-	// static_memory = ft_new_static(static_memory);
-	return(current_line);
+	index = get_nl_index(static_mem);
+	current_line = ft_substr(static_mem, 0, index, 0);
+	static_mem = ft_substr(static_mem, index, ft_strlen(static_mem + index), 1);
+	return (current_line);
 }
-
-
-// #include <fcntl.h>
-// #include <stdio.h>
-
-// int main() {
-// 	int fd = open("get_next_line.h", O_RDONLY);
-// 	char *c = get_next_line(fd);
-// 	while(c != NULL)
-// 	{
-// 		printf("%s", c);
-// 		free(c);
-// 		c = get_next_line(fd);
-// 	}
-// 	free(c);
-// 	return 0;
-// }
