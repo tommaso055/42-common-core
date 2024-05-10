@@ -91,7 +91,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len, int free_s)
 {
 	char	*substring;
 	size_t	i;
-	size_t	s_len;
 
 	i = 0;
 	if (!s || !s[i] || len == 0)
