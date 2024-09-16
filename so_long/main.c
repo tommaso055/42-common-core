@@ -1,12 +1,4 @@
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
-#include <X11/keysym.h>
-#include <stdlib.h> 
-
-typedef struct bank {
-    void *xvar;
-    void *window;
-} bank;
+#include "so_long.h"
 
 int key_pressed(int keysim, bank *param)
 {
@@ -14,6 +6,8 @@ int key_pressed(int keysim, bank *param)
     if (keysim == XK_Escape)
     {
         mlx_destroy_window(param->xvar, param->window);
+        mlx_destroy_display(param->xvar);
+        free(param->xvar);
         exit(0);
     }
     return (0);

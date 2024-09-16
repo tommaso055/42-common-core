@@ -1,20 +1,4 @@
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-
-
-#define EMPTY '0'
-#define WALL '1'
-#define COLLECTIBLE 'C'
-#define EXIT 'E'
-#define SPAWN 'S'
-
-typedef struct point
-{
-	point	*next;
-	int		row;
-	int		column;
-}	point;
+#include "so_long.h"
 
 point	*ft_lstnew(int row, int column)
 {

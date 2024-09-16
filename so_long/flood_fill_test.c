@@ -1,67 +1,17 @@
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
+#include "so_long.h"
 
-
-#define EMPTY '0'
-#define WALL '1'
-#define COLLECTIBLE 'C'
-#define EXIT 'E'
-#define SPAWN 'S'
-
-char	*get_next_line(int fd);
-
-typedef struct point
-{
-	void	*next;
-	int		row;
-	int		column;
-}	point;
-
-point	*ft_lstnew(int row, int column)
-{
-	point	*list;
-
-	list = (point *)malloc(sizeof(point));
-	if (!list)
-		return (NULL);
-	list->next = NULL;
-	list->row = row;
-	list->column = column;
-	return (list);
-}
-
-void	ft_lstadd_back(point **lst, point *new)
-{
-	point	*curr;
-
-	if (!new)
-		return ;
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	curr = *lst;
-	while (curr->next)
-		curr = curr->next;
-	curr->next = new;
-}
-
-int get_info(char *file_name, point **entrance, int *collectibles_number, int *rows)
+int get_info(char *file_name, point **entrance, game *mygame)
 {
 	int		fd;
 	char	*line;
 	int		row;
 	int		column;
-	int		columns;
 
 	row = 0;
 	column = 0;
 	fd = open (file_name, O_RDONLY);
 	line = get_next_line(fd);
-	columns = ft_len(line) - 1;
+	mygame->cols = ft_strlen(line);
 	while (line) // potrebbero servire controlli extra
 	{
 		while (line[column]) // potresti dover mettere ( != \n)
@@ -69,18 +19,18 @@ int get_info(char *file_name, point **entrance, int *collectibles_number, int *r
 			if (line[column] == SPAWN)
 				*entrance = ft_lstnew(row, column);
 			if (line[column] == COLLECTIBLE)
-				(*collectibles_number)++;
+				(mygame->n_collectibles)++;
 			column++;
 		}
 		free(line);
 		row++;
-		if (column != (columns + 1)) // non necessario? potresti metterlo all'inizio
+		if (column != (mygame->cols + 1)) // non necessario? potresti metterlo all'inizio
 			return (0);
 		line = get_next_line(fd);
 	}
-	*rows = row;
+	mygame->rows = row;
 	close(fd);
-	return (columns);
+	return (0);
 }
 
 char	**init_map(char *file_name, int rows)
@@ -96,39 +46,6 @@ char	**init_map(char *file_name, int rows)
 		map[i++] = get_next_line(fd);
 	close (fd);
 	return (map);
-}
-
-int	**init_zeroes(int rows, int columns)
-{
-	int **array;
-	int i;
-	int	j;
-
-	i = -1;
-	j = -1;
-	array = malloc(sizeof(int *) * rows);
-	while (++i < rows)
-	{
-		array[i] = malloc(sizeof(int) * columns);
-		while (++j < columns)
-			array[i][j] = 0;
-		j = -1;
-	}
-	return (array);
-}
-
-void	next_curr(point **lst)
-{
-	point	*temp;
-
-	temp = (*lst)->next;
-	free(*lst);
-	*lst = temp;
-}
-
-void	set_visited(point *curr, int **visited, int rows, int columns)
-{
-	if (curr->row + 1 < rows ); // && ...
 }
 
 void	add_neighbors(point **curr, int **visited, char **map, int rows, int columns) //funzione troppo lunga e con troppi argomenti
@@ -164,40 +81,41 @@ void	add_neighbors(point **curr, int **visited, char **map, int rows, int column
 	}
 }
 
+void	set_visited(point *curr, int **visited, int rows, int columns)
+{
+	if (curr->row + 1 < rows ); // && ...
+}
+
 int is_valid(char **map, int rows, int collectibles_number, point *curr)
 {
 	int columns;
 	int **visited;
 
-	columns = ft_len(map[0]) - 1;
+	columns = ft_strlen(map[0]) - 1;
 	visited = init_zeroes(rows, columns);
 	visited[curr->row][curr->column]++;
 	while (curr)
 	{
-		// add neighbors to list
 		add_neighbors(&curr, visited, map, rows, columns);
-		// set neighbors as visited
 		//set_visited(curr, visited, rows, columns);
-		// set curr to next
 		next_curr(&curr);
 	}
 }
 
 int main(int argc, char **argv)
 {
-	point	*entrance;
-	char	**map;
-	int		rows;
-	int		columns;
-	int		collectibles_number;
+
+	game	mygame;
+	point	*entrance; // forse devi togliere il pointer
 	
 	
-	columns = get_info(argv[1], &entrance, &collectibles_number, &rows);
-	if (columns == 0)
+	entrance = malloc(sizeof(point));
+	get_info(argv[1], &entrance, &mygame);
+	if (mygame.cols == 0)
 		return (0);
-	map = init_map(argv[1], rows);
-	if (!is_valid(map, rows, collectibles_number, ft_lstnew(entrance->row, entrance->column)))
-		return (0);
+	mygame.map = init_map(argv[1], mygame.rows);
+	// if (!is_valid(mygame.map, mygame.rows, mygame.n_collectibles, ft_lstnew(entrance->row, entrance->column)))
+	// 	return (0);
     printf("%s", "daje funziona");
     return (0);
 }

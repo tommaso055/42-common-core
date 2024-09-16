@@ -1,5 +1,5 @@
 CFLAGS = #-Wall -Wextra -Werror
-LIBS = -L/nfs/homes/tdonato/42/so_long/minilibx-linux -lmlx_Linux -lX11 -lXext  # Include necessary X11 libraries
+LIBS = -L/nfs/homes/tdonato/42/so_long/minilibx-linux -lmlx_Linux -lX11 -lXext
 
 all: myprogram clean
 
@@ -16,3 +16,4 @@ fclean:
 	rm -f *.o so_long
 
 re: fclean all
+.PHONY: all clean fclean
