@@ -3,11 +3,11 @@ LIBS = -L/nfs/homes/tdonato/42/so_long/minilibx-linux -lmlx_Linux -lX11 -lXext
 
 all: myprogram clean
 
-myprogram: main.o
-	gcc main.o $(LIBS) -o so_long
+myprogram: so_long_main.o
+	gcc so_long_main.o $(LIBS) -o so_long
 
-main.o: main.c
-	gcc $(CFLAGS) -c main.c
+so_long_main.o: so_long_main.c
+	gcc $(CFLAGS) -c so_long_main.c
 
 clean:
 	rm -f *.o

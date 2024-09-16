@@ -48,12 +48,3 @@ int	**init_zeroes(int rows, int columns)
 	}
 	return (array);
 }
-
-void	next_curr(point **lst)
-{
-	point	*temp;
-
-	temp = (*lst)->next;
-	free(*lst);
-	*lst = temp;
-}
