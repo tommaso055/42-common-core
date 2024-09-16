@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <X11/keysym.h>
 #include <fcntl.h>
-#include <stdio.h>
 #include "get_next_line.h"
 
 #define EMPTY '0'
@@ -27,10 +26,13 @@ typedef struct game
 {
     char **map;
     int **visited;
-    int cols;
+    int columns;
     int rows;
     int n_collectibles;
     int n_entrances;
+    int n_exits;
+    int checks;
+    int reachable_collectibles;
 } game;
 
 point	*ft_lstnew(int row, int column);
