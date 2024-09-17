@@ -70,15 +70,18 @@ int main(int argc, char **argv)
 	init_map(argv[1], &mygame);
 	if (mygame.n_entrances != 1 || mygame.n_exits != 1 || mygame.checks > 0)
 	{
-		throw_error(&mygame, entrance);
+		free(entrance);
+		throw_error(&mygame);
 		return (0);
 	}
 	if (!is_valid(&mygame, ft_lstnew(entrance->row, entrance->column)))
 	{
-		throw_error(&mygame, entrance);
+		free(entrance);
+		throw_error(&mygame);
 		return (0);
 	}
+	free(entrance);
 	play(&mygame);
-	terminate_program(&mygame, entrance);
+	terminate_program(&mygame);
 	return(0);
 }
