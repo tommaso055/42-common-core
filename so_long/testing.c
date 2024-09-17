@@ -268,7 +268,7 @@ char	**init_map(char *file_name, game *mygame)
 	while (i < mygame->rows )
 	{
 		mygame->map[i] = get_next_line(fd);
-		if (ft_strlen(mygame->map[i]) != (mygame->columns - 1))
+		if (ft_strlen(mygame->map[i]) != (mygame->columns + 1))
 			mygame->checks++;
 		i++;
 	}
@@ -343,6 +343,7 @@ point *get_info(char *file_name, game *mygame, int column)
 		free(line);
 		mygame->rows++;
 		line = get_next_line(fd);
+		column = 0;
 	}
 	close(fd);
 	return (entrance);
@@ -364,8 +365,8 @@ int main(int argc, char **argv)
 	point	*entrance; 
 	
 	set_up(&mygame);
-	entrance = get_info(argv[1], &mygame, 0);
-	init_map(argv[1], &mygame);
+	entrance = get_info("mappa.ber", &mygame, 0); // argv[1]
+	init_map("mappa.ber", &mygame);
 	if (mygame.n_entrances != 1 || mygame.n_exits != 1 || mygame.checks > 0)
 	{
 		throw_error(&mygame, entrance);
