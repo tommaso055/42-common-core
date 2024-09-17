@@ -3,16 +3,22 @@
 int key_pressed(int keysim, bank *data)
 {
 
-    if (keysim == XK_Escape)
+    if (keysim == XK_Escape) // || keysim == X)
     {
         mlx_destroy_window(data->xvar, data->window);
         mlx_destroy_display(data->xvar);
         free(data->xvar);
-        free(data->position);
         terminate_program(data->mygame, data->position);
         exit(0);
     }
+    if (keysim == XK_w || keysim == XK_a || keysim == XK_s || keysim == XK_d)
+        move(keysim, data);
     return (0);
+}
+
+int move(int keysim, bank *data)
+{
+
 }
 
 void put_map(bank *data)

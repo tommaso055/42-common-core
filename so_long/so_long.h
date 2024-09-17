@@ -17,15 +17,13 @@
 #define PLAYER "textures/Player.xpm"
 #define TILE_SIZE 128
 
-typedef struct point
-{
+typedef struct point {
 	struct point	*next;
 	int		row;
 	int		column;
 }	point;
 
-typedef struct game
-{
+typedef struct game {
     char **map;
     int **visited;
     int columns;
@@ -59,3 +57,4 @@ void	add_neighbors(point **curr, game *mygame);
 void	set_visited(point *curr, game *mygame);
 void	next_curr(point **lst);
 int is_valid(game *mygame, point *curr);
+int move(int keysim, bank *data);
