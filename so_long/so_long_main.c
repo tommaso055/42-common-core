@@ -12,7 +12,8 @@ char	**init_map(char *file_name, game *mygame)
 	{
 		mygame->map[i] = get_next_line(fd);
 		if (ft_strlen(mygame->map[i]) != (mygame->columns + 1))
-			mygame->checks++;
+			if(ft_strlen(mygame->map[i]) != (mygame->columns) || get_next_line(fd))
+				mygame->checks++;
 		i++;
 	}
 	close (fd);

@@ -10,6 +10,10 @@
 #define EXIT 'E'
 #define ENTRANCE 'P'
 
+#define LAVA "textures/lava.xpm"
+#define STONE "textures/stone.xpm"
+#define TILE_SIZE 128
+
 typedef struct point
 {
 	struct point	*next;
