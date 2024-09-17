@@ -41,15 +41,16 @@ typedef struct bank {
     void *xvar;
     void *window;
     game *mygame;
+    point *position;
 } bank;
 
 point	*ft_lstnew(int row, int column);
 void	ft_lstadd_back(point **lst, point *new);
 int	**init_zeroes(int rows, int columns);
-void terminate_program(game *mygame);
-void throw_error(game *mygame);
+void terminate_program(game *mygame, point *entrance);
+void throw_error(game *mygame, point *entrance);
 int key_pressed(int keysim, bank *param);
-int play(game *mygame);
+int play(game *mygame, point *entrance);
 char	**init_map(char *file_name, game *mygame);
 point *get_info(char *file_name, game *mygame, int column);
 void set_up(game *mygame);
