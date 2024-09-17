@@ -10,8 +10,11 @@
 #define EXIT 'E'
 #define ENTRANCE 'P'
 
-#define LAVA "textures/lava.xpm"
-#define STONE "textures/stone.xpm"
+#define BOOK "textures/Book.xpm"
+#define STONE "textures/Stone.xpm"
+#define GRASS "textures/Grass.xpm"
+#define VORTEX "textures/Vortex.xpm"
+#define PLAYER "textures/Player.xpm"
 #define TILE_SIZE 128
 
 typedef struct point
