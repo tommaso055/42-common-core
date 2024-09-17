@@ -9,7 +9,7 @@ int key_pressed(int keysim, bank *data)
         mlx_destroy_display(data->xvar);
         free(data->xvar);
         free(data->position);
-        terminate_program(data->mygame);
+        terminate_program(data->mygame, data->position);
         exit(0);
     }
     return (0);
