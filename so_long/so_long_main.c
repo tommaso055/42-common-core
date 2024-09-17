@@ -1,25 +1,84 @@
 #include "so_long.h"
 
-int key_pressed(int keysim, bank *param)
+char	**init_map(char *file_name, game *mygame)
 {
+	int		i;
+	int		fd;
 
-    if (keysim == XK_Escape)
-    {
-        mlx_destroy_window(param->xvar, param->window);
-        mlx_destroy_display(param->xvar);
-        free(param->xvar);
-        exit(0);
-    }
-    return (0);
+	i = 0;
+	fd = open(file_name, O_RDONLY);
+	mygame->map = (char **)malloc(mygame->rows * sizeof(char *));
+	while (i < mygame->rows )
+	{
+		mygame->map[i] = get_next_line(fd);
+		if (ft_strlen(mygame->map[i]) != (mygame->columns + 1))
+			mygame->checks++;
+		i++;
+	}
+	close (fd);
+	mygame->visited = init_zeroes(mygame->rows, mygame->columns);
+	return (mygame->map);
 }
 
-int main()
+point *get_info(char *file_name, game *mygame, int column)
 {
-    bank data;
+	point	*entrance;
+	int		fd;
+	char	*line;
 
-    data.xvar = mlx_init();
-    data.window = mlx_new_window(data.xvar, 1920, 1080, "titolo");
-    mlx_key_hook(data.window, key_pressed, &data);
-    mlx_loop(data.xvar);
-    return (0);
+	entrance = NULL;
+	fd = open (file_name, O_RDONLY);
+	line = get_next_line(fd);
+	mygame->columns = ft_strlen(line) - 1;
+	while (line) // potrebbero servire controlli extra
+	{
+		while (line[column] && line[column] != '\n')
+		{
+			if (line[column] == ENTRANCE && mygame->n_entrances++ == 0)
+				entrance = ft_lstnew(mygame->rows, column);
+			if (line[column] == COLLECTIBLE)
+				(mygame->n_collectibles)++;
+			if (line[column++] == EXIT)
+				(mygame->n_exits)++;
+		}
+		free(line);
+		mygame->rows++;
+		line = get_next_line(fd);
+		column = 0;
+	}
+	close(fd);
+	return (entrance);
+}
+
+void set_up(game *mygame)
+{
+	mygame->n_collectibles = 0;
+	mygame->n_entrances = 0;
+	mygame->rows = 0;
+	mygame->n_exits = 0;
+    mygame->checks = 0;
+    mygame->reachable_collectibles = 0;
+}
+
+int main(int argc, char **argv)
+{
+	game	mygame;
+	point	*entrance; 
+	
+	set_up(&mygame);
+	entrance = get_info(argv[1], &mygame, 0);
+	init_map(argv[1], &mygame);
+	if (mygame.n_entrances != 1 || mygame.n_exits != 1 || mygame.checks > 0)
+	{
+		throw_error(&mygame, entrance);
+		return (0);
+	}
+	if (!is_valid(&mygame, ft_lstnew(entrance->row, entrance->column)))
+	{
+		throw_error(&mygame, entrance);
+		return (0);
+	}
+	play(&mygame);
+	terminate_program(&mygame, entrance);
+	return(0);
 }

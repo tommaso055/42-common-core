@@ -1,23 +1,5 @@
 #include "so_long.h"
 
-void terminate_program(game *mygame, point *entrance)
-{
-	free(entrance);
-	while(mygame->rows--)
-	{
-		free(mygame->visited[mygame->rows]);
-		free(mygame->map[mygame->rows]);
-	}
-	free(mygame->visited);
-	free(mygame->map);
-}
-
-void throw_error(game *mygame, point *entrance)
-{
-	printf("%s", "there was a mistake");
-	terminate_program(mygame, entrance);
-}
-
 void	add_neighbors(point **curr, game *mygame)
 {
 	int i;
@@ -74,26 +56,6 @@ void	next_curr(point **lst)
 	*lst = temp;
 }
 
-char	**init_map(char *file_name, game *mygame)
-{
-	int		i;
-	int		fd;
-
-	i = 0;
-	fd = open(file_name, O_RDONLY);
-	mygame->map = (char **)malloc(mygame->rows * sizeof(char *));
-	while (i < mygame->rows )
-	{
-		mygame->map[i] = get_next_line(fd);
-		if (ft_strlen(mygame->map[i]) != (mygame->columns - 1))
-			mygame->checks++;
-		i++;
-	}
-	close (fd);
-	mygame->visited = init_zeroes(mygame->rows, mygame->columns);
-	return (mygame->map);
-}
-
 int check_perimeter_and_chars(game *mygame, int i, int j)
 {
 	char c;
@@ -106,7 +68,7 @@ int check_perimeter_and_chars(game *mygame, int i, int j)
 			if (i == 0 || i == mygame->rows - 1 || j == 0 || j == mygame->columns - 1)
 				if (c != WALL)
 					return (0);
-			else if (c != WALL && c != EMPTY && c != COLLECTIBLE && c != ENTRANCE && c != EXIT)
+			if (c != WALL && c != EMPTY && c != COLLECTIBLE && c != ENTRANCE && c != EXIT)
 				return (0);
 			j++;
 		}
@@ -134,66 +96,4 @@ int is_valid(game *mygame, point *curr)
 	if (mygame->reachable_collectibles < mygame->n_collectibles || mygame->checks != 1)
 		return (0);
 	return (1);
-}
-
-point *get_info(char *file_name, game *mygame, int column)
-{
-	point	*entrance;
-	int		fd;
-	char	*line;
-
-	entrance = NULL;
-	fd = open (file_name, O_RDONLY);
-	line = get_next_line(fd);
-	mygame->columns = ft_strlen(line) - 1;
-	while (line) // potrebbero servire controlli extra
-	{
-		while (line[column] && line[column] != '\n')
-		{
-			if (line[column] == ENTRANCE && mygame->n_entrances++ == 0)
-				entrance = ft_lstnew(mygame->rows, column);
-			if (line[column] == COLLECTIBLE)
-				(mygame->n_collectibles)++;
-			if (line[column++] == EXIT)
-				(mygame->n_exits)++;
-		}
-		free(line);
-		mygame->rows++;
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (entrance);
-}
-
-void set_up(game *mygame)
-{
-	mygame->n_collectibles = 0;
-	mygame->n_entrances = 0;
-	mygame->rows = 0;
-	mygame->n_exits = 0;
-    mygame->checks = 0;
-    mygame->reachable_collectibles = 0;
-}
-
-int main(int argc, char **argv)
-{
-	game	mygame;
-	point	*entrance; 
-	
-	set_up(&mygame);
-	entrance = get_info(argv[1], &mygame, 0);
-	init_map(argv[1], &mygame);
-	if (mygame.n_entrances != 1 || mygame.n_exits != 1 || mygame.checks > 0)
-	{
-		throw_error(&mygame, entrance);
-		return (0);
-	}
-	if (!is_valid(&mygame, ft_lstnew(entrance->row, entrance->column)))
-	{
-		throw_error(&mygame, entrance);
-		return (0);
-	}
-	// play game
-	terminate_program(&mygame, entrance);
-	return(0);
 }

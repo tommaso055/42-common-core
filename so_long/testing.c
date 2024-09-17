@@ -197,7 +197,7 @@ void terminate_program(game *mygame, point *entrance)
 
 void throw_error(game *mygame, point *entrance)
 {
-	printf("%s", "there was a mistake");
+	printf("%s", "Error\nINCORRECT MAP FORMAT");
 	terminate_program(mygame, entrance);
 }
 
@@ -289,7 +289,7 @@ int check_perimeter_and_chars(game *mygame, int i, int j)
 			if (i == 0 || i == mygame->rows - 1 || j == 0 || j == mygame->columns - 1)
 				if (c != WALL)
 					return (0);
-			else if (c != WALL && c != EMPTY && c != COLLECTIBLE && c != ENTRANCE && c != EXIT)
+			if (c != WALL && c != EMPTY && c != COLLECTIBLE && c != ENTRANCE && c != EXIT)
 				return (0);
 			j++;
 		}
@@ -377,7 +377,7 @@ int main(int argc, char **argv)
 		throw_error(&mygame, entrance);
 		return (0);
 	}
-	// play game
+	play(&mygame);
 	terminate_program(&mygame, entrance);
 	return(0);
 }
