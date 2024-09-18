@@ -97,7 +97,7 @@ int	check(char *f)
 	}
 	if (check2(f))
 	{
-		ft_printf("%s", "Impty file\n");
+		ft_printf("%s", "Empty  or inexistent file\n");
 		return (1);
 	}
 	return (0);
