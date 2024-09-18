@@ -1,27 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_main.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 17:30:07 by tdonato           #+#    #+#             */
+/*   Updated: 2024/09/18 17:30:10 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-char	**init_map(char *file_name, t_game *mygame)
+char	**init_map(char *file_name, t_game *mg)
 {
 	int		i;
 	int		fd;
 
 	i = 0;
 	fd = open(file_name, O_RDONLY);
-	mygame->map = (char **)malloc(mygame->rows * sizeof(char *));
-	while (i < mygame->rows)
+	mg->map = (char **)malloc(mg->rows * sizeof(char *));
+	while (i < mg->rows)
 	{
-		mygame->map[i] = get_next_line(fd);
-		if (ft_strlen(mygame->map[i]) != (mygame->columns + 1))
-			if (ft_strlen(mygame->map[i]) != (mygame->columns) || get_next_line(fd))
-				mygame->checks++;
+		mg->map[i] = get_next_line(fd);
+		if ((int)ft_strlen(mg->map[i]) != (mg->cols + 1))
+			if ((int)ft_strlen(mg->map[i]) != (mg->cols) || get_next_line(fd))
+				mg->checks++;
 		i++;
 	}
 	close (fd);
-	mygame->vis = init_zeroes(mygame->rows, mygame->columns);
-	return (mygame->map);
+	mg->vis = init_zeroes(mg->rows, mg->cols);
+	return (mg->map);
 }
 
-t_point	*get_info(char *file_name, t_game *mygame, int column)
+t_point	*get_info(char *file_name, t_game *mg, int column)
 {
 	t_point	*entrance;
 	int		fd;
@@ -29,20 +41,20 @@ t_point	*get_info(char *file_name, t_game *mygame, int column)
 
 	fd = open (file_name, O_RDONLY);
 	line = get_next_line(fd);
-	mygame->columns = ft_strlen(line) - 1;
+	mg->cols = ft_strlen(line) - 1;
 	while (line)
 	{
 		while (line[column] && line[column] != '\n')
 		{
-			if (line[column] == ENTRANCE && mygame->n_entrances++ == 0)
-				entrance = ft_lstnew(mygame->rows, column);
-			if (line[column] == COLLECTIBLE)
-				(mygame->n_collectibles)++;
+			if (line[column] == ENTR && mg->n_entrances++ == 0)
+				entrance = ft_lstnew(mg->rows, column);
+			if (line[column] == COLL)
+				(mg->n_collectibles)++;
 			if (line[column++] == EXIT)
-				(mygame->n_exits)++;
+				(mg->n_exits)++;
 		}
 		free(line);
-		mygame->rows++;
+		mg->rows++;
 		line = get_next_line(fd);
 		column = 0;
 	}
@@ -50,36 +62,41 @@ t_point	*get_info(char *file_name, t_game *mygame, int column)
 	return (entrance);
 }
 
-void	set_up(t_game *mygame)
+void	set_up(t_game *mg)
 {
-	mygame->n_collectibles = 0;
-	mygame->n_entrances = 0;
-	mygame->rows = 0;
-	mygame->n_exits = 0;
-	mygame->checks = 0;
-	mygame->reachable_collectibles = 0;
-	mygame->move_counter = 0;
+	mg->n_collectibles = 0;
+	mg->n_entrances = 0;
+	mg->rows = 0;
+	mg->n_exits = 0;
+	mg->checks = 0;
+	mg->reachable_collectibles = 0;
+	mg->move_counter = 0;
 }
 
 int	main(int argc, char **argv)
 {
-	t_game	mygame;
+	t_game	mg;
 	t_point	*entrance;
 
-	set_up(&mygame);
-	entrance = get_info(argv[1], &mygame, 0);
-	init_map(argv[1], &mygame);
-	if (mygame.n_entrances != 1 || mygame.n_exits != 1 || mygame.checks > 0)
+	if (argc != 2)
 	{
-		throw_error(&mygame, entrance);
+		ft_printf("%s", "solo un argomento, scemo");
 		return (0);
 	}
-	if (!is_valid(&mygame, ft_lstnew(entrance->row, entrance->column)))
+	set_up(&mg);
+	entrance = get_info(argv[1], &mg, 0);
+	init_map(argv[1], &mg);
+	if (mg.n_entrances != 1 || mg.n_exits != 1 || mg.checks > 0)
 	{
-		throw_error(&mygame, entrance);
+		throw_error(&mg, entrance);
 		return (0);
 	}
-	play(&mygame, entrance);
-	terminate_program(&mygame, entrance);
+	if (!is_valid(&mg, ft_lstnew(entrance->row, entrance->column)))
+	{
+		throw_error(&mg, entrance);
+		return (0);
+	}
+	play(&mg, entrance);
+	terminate_program(&mg, entrance);
 	return (0);
 }

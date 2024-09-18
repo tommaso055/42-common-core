@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_play_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 17:30:07 by tdonato           #+#    #+#             */
+/*   Updated: 2024/09/18 17:30:10 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	set_up_sprites(t_bank *data, t_sprites *info, int size)
@@ -7,7 +19,7 @@ void	set_up_sprites(t_bank *data, t_sprites *info, int size)
 	info->book = mlx_xpm_file_to_image(data->xvar, BOOK, &size, &size);
 	info->vortex = mlx_xpm_file_to_image(data->xvar, VORTEX, &size, &size);
 	info->player = mlx_xpm_file_to_image(data->xvar, PLAYER, &size, &size);
-	info->player_exit = mlx_xpm_file_to_image(data->xvar, PLAYER_EXIT, &size, &size);
+	info->p_e = mlx_xpm_file_to_image(data->xvar, PLAYER_EXIT, &size, &size);
 }
 
 void	destroy_sprites(t_bank *data)
@@ -17,30 +29,30 @@ void	destroy_sprites(t_bank *data)
 	mlx_destroy_image(data->xvar, data->info.book);
 	mlx_destroy_image(data->xvar, data->info.vortex);
 	mlx_destroy_image(data->xvar, data->info.player);
-	mlx_destroy_image(data->xvar, data->info.player_exit);
+	mlx_destroy_image(data->xvar, data->info.p_e);
 }
 
 void	put_map(t_bank *data, t_sprites *info, int i, int j)
 {
-	int	size;
+	int	s;
 
-	size = TILE_SIZE;
-	while (i < data->mygame->rows)
+	s = TILE_SIZE;
+	while (i < data->mg->rows)
 	{
-		while (j < data->mygame->columns)
+		while (j < data->mg->cols)
 		{
-			if (data->mygame->map[i][j] == WALL)
-				mlx_put_image_to_window(data->xvar, data->window, info->stone, j * 128, i * 128);
-			if (data->mygame->map[i][j] == ENTRANCE)
-				mlx_put_image_to_window(data->xvar, data->window, info->player, j * 128, i * 128);
-			if (data->mygame->map[i][j] == COLLECTIBLE)
-				mlx_put_image_to_window(data->xvar, data->window, info->book, j * 128, i * 128);
-			if (data->mygame->map[i][j] == EXIT)
-				mlx_put_image_to_window(data->xvar, data->window, info->vortex, j * 128, i * 128);
-			if (data->mygame->map[i][j] == EMPTY)
-				mlx_put_image_to_window(data->xvar, data->window, info->grass, j * 128, i * 128);
-			if (data->mygame->map[i][j] == 'F')
-				mlx_put_image_to_window(data->xvar, data->window, info->player_exit, j * 128, i * 128);
+			if (data->mg->map[i][j] == WALL)
+				PUT_IMG(data->xvar, data->window, info->stone, j * s, i * s);
+			if (data->mg->map[i][j] == ENTR)
+				PUT_IMG(data->xvar, data->window, info->player, j * s, i * s);
+			if (data->mg->map[i][j] == COLL)
+				PUT_IMG(data->xvar, data->window, info->book, j * s, i * s);
+			if (data->mg->map[i][j] == EXIT)
+				PUT_IMG(data->xvar, data->window, info->vortex, j * s, i * s);
+			if (data->mg->map[i][j] == EMPTY)
+				PUT_IMG(data->xvar, data->window, info->grass, j * s, i * s);
+			if (data->mg->map[i][j] == 'F')
+				PUT_IMG(data->xvar, data->window, info->p_e, j * s, i * s);
 			j++;
 		}
 		i++;
@@ -62,28 +74,28 @@ void	convert_to_move(int keysim, int *dr, int *dc)
 
 void	move(int dr, int dc, t_bank *data)
 {
-	if (data->mygame->map[data->position->row + dc][data->position->column + dr] != WALL)
+	if (data->mg->map[data->p->row + dc][data->p->column + dr] != WALL)
 	{
-		if (data->mygame->map[data->position->row][data->position->column] == 'F')
-			data->mygame->map[data->position->row][data->position->column] = EXIT;
+		if (data->mg->map[data->p->row][data->p->column] == 'F')
+			data->mg->map[data->p->row][data->p->column] = EXIT;
 		else
-			data->mygame->map[data->position->row][data->position->column] = EMPTY;
-		if (data->mygame->map[data->position->row + dc][data->position->column + dr] == COLLECTIBLE)
-			data->mygame->reachable_collectibles--;
-		if (data->mygame->map[data->position->row + dc][data->position->column + dr] == EXIT)
+			data->mg->map[data->p->row][data->p->column] = EMPTY;
+		if (data->mg->map[data->p->row + dc][data->p->column + dr] == COLL)
+			data->mg->reachable_collectibles--;
+		if (data->mg->map[data->p->row + dc][data->p->column + dr] == EXIT)
 		{
-			if (!data->mygame->reachable_collectibles)
+			if (!data->mg->reachable_collectibles)
 			{
 				ft_printf("%s", "YOU WON!");
 				key_pressed(XK_Escape, data);
 			}
-			data->mygame->map[data->position->row + dc][data->position->column + dr] = 'F';
+			data->mg->map[data->p->row + dc][data->p->column + dr] = 'F';
 		}
 		else
-			data->mygame->map[data->position->row + dc][data->position->column + dr] = ENTRANCE;
-		data->position->row = data->position->row + dc;
-		data->position->column = data->position->column + dr;
-		data->mygame->move_counter++;
-		ft_printf("You have moved %d times\n", data->mygame->move_counter);
+			data->mg->map[data->p->row + dc][data->p->column + dr] = ENTR;
+		data->p->row = data->p->row + dc;
+		data->p->column = data->p->column + dr;
+		data->mg->move_counter++;
+		ft_printf("You have moved %d times\n", data->mg->move_counter);
 	}
 }

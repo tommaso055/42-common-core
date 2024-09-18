@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_play.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 17:30:07 by tdonato           #+#    #+#             */
+/*   Updated: 2024/09/18 17:30:10 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	key_pressed(int keysim, t_bank *data)
@@ -19,7 +31,7 @@ int	key_pressed(int keysim, t_bank *data)
 		mlx_destroy_window(data->xvar, data->window);
 		mlx_destroy_display(data->xvar);
 		free(data->xvar);
-		terminate_program(data->mygame, data->position);
+		terminate_program(data->mg, data->p);
 		exit(0);
 	}
 	return (0);
@@ -31,15 +43,16 @@ int	handle_close(t_bank *data)
 	return (0);
 }
 
-int	play(t_game *mygame, t_point *entrance)
+int	play(t_game *mg, t_point *entrance)
 {
 	t_bank	data;
-	void	*pointer;
+	int		s;
 
-	data.position = entrance;
-	data.mygame = mygame;
+	s = TILE_SIZE;
+	data.p = entrance;
+	data.mg = mg;
 	data.xvar = mlx_init();
-	data.window = mlx_new_window(data.xvar, mygame->columns * 128, mygame->rows * 128, "titolo");
+	data.window = mlx_new_window(data.xvar, mg->cols * s, mg->rows * s, "game");
 	set_up_sprites(&data, &(data.info), TILE_SIZE);
 	mlx_key_hook(data.window, key_pressed, &data);
 	mlx_hook(data.window, 17, 0, handle_close, &data);

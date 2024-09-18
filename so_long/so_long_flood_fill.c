@@ -1,49 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_flood_fill.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 17:30:07 by tdonato           #+#    #+#             */
+/*   Updated: 2024/09/18 17:30:10 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void	add_neighbors(t_point **curr, t_game *mygame)
+void	add_neighbors(t_point **curr, t_game *mg)
 {
 	int	i;
 	int	j;
 
 	i = (*curr)->row;
 	j = (*curr)->column;
-	if (i - 1 >= 0 && mygame->map[i - 1][j] != WALL && mygame->vis[i - 1][j] == 0)
+	if (i - 1 >= 0 && mg->map[i - 1][j] != WALL && mg->vis[i - 1][j] == 0)
 	{
 		ft_lstadd_back(curr, ft_lstnew(i - 1, j));
 		curr = &((*curr)->next);
 	}
-	if (i + 1 < mygame->rows && mygame->map[i + 1][j] != WALL && mygame->vis[i + 1][j] == 0)
+	if (i + 1 < mg->rows && mg->map[i + 1][j] != WALL && mg->vis[i + 1][j] == 0)
 	{
 		ft_lstadd_back(curr, ft_lstnew(i + 1, j));
 		curr = &((*curr)->next);
 	}
-	if (j - 1 >= 0 && mygame->map[i][j - 1] != WALL && mygame->vis[i][j - 1] == 0)
+	if (j - 1 >= 0 && mg->map[i][j - 1] != WALL && mg->vis[i][j - 1] == 0)
 	{
 		ft_lstadd_back(curr, ft_lstnew(i, j - 1));
 		curr = &((*curr)->next);
 	}
-	if (j + 1 < mygame->columns && mygame->map[i][j + 1] != WALL && mygame->vis[i][j + 1] == 0)
+	if (j + 1 < mg->cols && mg->map[i][j + 1] != WALL && mg->vis[i][j + 1] == 0)
 	{
 		ft_lstadd_back(curr, ft_lstnew(i, j + 1));
 		curr = &((*curr)->next);
 	}
 }
 
-void	set_visited(t_point *curr, t_game *mygame)
+void	set_visited(t_point *curr, t_game *mg)
 {
 	int	i;
 	int	j;
 
 	i = curr->row;
 	j = curr->column;
-	if (i - 1 >= 0 && mygame->map[i - 1][j] != WALL && mygame->vis[i - 1][j] == 0)
-		mygame->vis[i - 1][j]++;
-	if (i + 1 < mygame->rows && mygame->map[i + 1][j] != WALL && mygame->vis[i + 1][j] == 0)
-		mygame->vis[i + 1][j]++;
-	if (j - 1 >= 0 && mygame->map[i][j - 1] != WALL && mygame->vis[i][j - 1] == 0)
-		mygame->vis[i][j - 1]++;
-	if (j + 1 < mygame->columns && mygame->map[i][j + 1] != WALL && mygame->vis[i][j + 1] == 0)
-		mygame->vis[i][j + 1]++;
+	if (i - 1 >= 0 && mg->map[i - 1][j] != WALL && mg->vis[i - 1][j] == 0)
+		mg->vis[i - 1][j]++;
+	if (i + 1 < mg->rows && mg->map[i + 1][j] != WALL && mg->vis[i + 1][j] == 0)
+		mg->vis[i + 1][j]++;
+	if (j - 1 >= 0 && mg->map[i][j - 1] != WALL && mg->vis[i][j - 1] == 0)
+		mg->vis[i][j - 1]++;
+	if (j + 1 < mg->cols && mg->map[i][j + 1] != WALL && mg->vis[i][j + 1] == 0)
+		mg->vis[i][j + 1]++;
 }
 
 void	next_curr(t_point **lst)
@@ -55,19 +67,19 @@ void	next_curr(t_point **lst)
 	*lst = temp;
 }
 
-int	check_perimeter_and_chars(t_game *mygame, int i, int j)
+int	check_perimeter_and_chars(t_game *mg, int i, int j)
 {
 	char	c;
 
-	while (i < mygame->rows)
+	while (i < mg->rows)
 	{
-		while (j < mygame->columns)
+		while (j < mg->cols)
 		{
-			c = mygame->map[i][j];
-			if (i == 0 || i == mygame->rows - 1 || j == 0 || j == mygame->columns - 1)
+			c = mg->map[i][j];
+			if (i == 0 || i == mg->rows - 1 || j == 0 || j == mg->cols - 1)
 				if (c != WALL)
 					return (0);
-			if (c != WALL && c != EMPTY && c != COLLECTIBLE && c != ENTRANCE && c != EXIT)
+			if (c != WALL && c != EMPTY && c != COLL && c != ENTR && c != EXIT)
 				return (0);
 			j++;
 		}
@@ -77,22 +89,22 @@ int	check_perimeter_and_chars(t_game *mygame, int i, int j)
 	return (1);
 }
 
-int	is_valid(t_game *mygame, t_point *curr)
+int	is_valid(t_game *mg, t_point *curr)
 {
-	if (!check_perimeter_and_chars(mygame, 0, 0))
+	if (!check_perimeter_and_chars(mg, 0, 0))
 		return (0);
-	mygame->vis[curr->row][curr->column]++;
+	mg->vis[curr->row][curr->column]++;
 	while (curr)
 	{
-		if (mygame->map[curr->row][curr->column] == COLLECTIBLE)
-			mygame->reachable_collectibles++;
-		if (mygame->map[curr->row][curr->column] == EXIT)
-			mygame->checks++;
-		add_neighbors(&curr, mygame);
-		set_visited(curr, mygame);
+		if (mg->map[curr->row][curr->column] == COLL)
+			mg->reachable_collectibles++;
+		if (mg->map[curr->row][curr->column] == EXIT)
+			mg->checks++;
+		add_neighbors(&curr, mg);
+		set_visited(curr, mg);
 		next_curr(&curr);
 	}
-	if (mygame->reachable_collectibles < mygame->n_collectibles || mygame->checks != 1)
+	if (mg->reachable_collectibles < mg->n_collectibles || mg->checks != 1)
 		return (0);
 	return (1);
 }

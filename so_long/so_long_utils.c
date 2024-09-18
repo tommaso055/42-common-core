@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 17:30:07 by tdonato           #+#    #+#             */
+/*   Updated: 2024/09/18 17:30:10 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void	terminate_program(t_game *mygame, t_point *entrance)
+void	terminate_program(t_game *mg, t_point *entrance)
 {
 	free(entrance);
-	while (mygame->rows--)
+	while (mg->rows--)
 	{
-		free(mygame->vis[mygame->rows]);
-		free(mygame->map[mygame->rows]);
+		free(mg->vis[mg->rows]);
+		free(mg->map[mg->rows]);
 	}
-	free(mygame->vis);
-	free(mygame->map);
+	free(mg->vis);
+	free(mg->map);
 }
 
-void	throw_error(t_game *mygame, t_point *entrance)
+void	throw_error(t_game *mg, t_point *entrance)
 {
 	ft_printf("%s", "Error\nINCORRECT MAP FORMAT");
-	terminate_program(mygame, entrance);
+	terminate_program(mg, entrance);
 }
 
 t_point	*ft_lstnew(int row, int column)
