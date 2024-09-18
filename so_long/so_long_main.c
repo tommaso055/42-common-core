@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-char	**init_map(char *file_name, game *mygame)
+char	**init_map(char *file_name, t_game *mygame)
 {
 	int		i;
 	int		fd;
@@ -21,9 +21,9 @@ char	**init_map(char *file_name, game *mygame)
 	return (mygame->map);
 }
 
-point *get_info(char *file_name, game *mygame, int column)
+t_point *get_info(char *file_name, t_game *mygame, int column)
 {
-	point	*entrance;
+	t_point	*entrance;
 	int		fd;
 	char	*line;
 
@@ -51,7 +51,7 @@ point *get_info(char *file_name, game *mygame, int column)
 	return (entrance);
 }
 
-void set_up(game *mygame)
+void set_up(t_game *mygame)
 {
 	mygame->n_collectibles = 0;
 	mygame->n_entrances = 0;
@@ -63,8 +63,8 @@ void set_up(game *mygame)
 
 int main(int argc, char **argv)
 {
-	game	mygame;
-	point	*entrance; 
+	t_game	mygame;
+	t_point	*entrance; 
 	
 	set_up(&mygame);
 	entrance = get_info(argv[1], &mygame, 0);

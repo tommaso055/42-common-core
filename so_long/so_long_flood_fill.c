@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-void	add_neighbors(point **curr, game *mygame)
+void	add_neighbors(t_point **curr, t_game *mygame)
 {
 	int i;
 	int j;
@@ -29,7 +29,7 @@ void	add_neighbors(point **curr, game *mygame)
 	}
 }
 
-void	set_visited(point *curr, game *mygame)
+void	set_visited(t_point *curr, t_game *mygame)
 {
 	int i;
 	int j;
@@ -47,16 +47,16 @@ void	set_visited(point *curr, game *mygame)
 		mygame->visited[i][j+1]++;
 }
 
-void	next_curr(point **lst)
+void	next_curr(t_point **lst)
 {
-	point	*temp;
+	t_point	*temp;
 
 	temp = (*lst)->next;
 	free(*lst);
 	*lst = temp;
 }
 
-int check_perimeter_and_chars(game *mygame, int i, int j)
+int check_perimeter_and_chars(t_game *mygame, int i, int j)
 {
 	char c;
 
@@ -78,7 +78,7 @@ int check_perimeter_and_chars(game *mygame, int i, int j)
 	return (1);
 }
 
-int is_valid(game *mygame, point *curr)
+int is_valid(t_game *mygame, t_point *curr)
 {
 	if (!check_perimeter_and_chars(mygame, 0, 0))
 		return (0);

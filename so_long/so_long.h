@@ -15,15 +15,16 @@
 #define GRASS "textures/Grass.xpm"
 #define VORTEX "textures/Vortex.xpm"
 #define PLAYER "textures/Player.xpm"
+#define PLAYER_EXIT "textures/Player_Exit.xpm"
 #define TILE_SIZE 128
 
-typedef struct point {
-	struct point	*next;
+typedef struct s_point {
+	struct s_point	*next;
 	int		row;
 	int		column;
-}	point;
+}	t_point;
 
-typedef struct game {
+typedef struct s_game {
     char **map;
     int **visited;
     int columns;
@@ -33,28 +34,42 @@ typedef struct game {
     int n_exits;
     int checks;
     int reachable_collectibles;
-} game;
+} t_game;
 
-typedef struct bank {
+typedef struct s_sprites {
+    void *grass;
+    void *stone;
+    void *book;
+    void *vortex;
+    void *player;
+} t_sprites;
+
+typedef struct s_bank {
     void *xvar;
     void *window;
-    game *mygame;
-    point *position;
-} bank;
+    t_game *mygame;
+    t_point *position;
+    t_sprites *info;
+} t_bank;
 
-point	*ft_lstnew(int row, int column);
-void	ft_lstadd_back(point **lst, point *new);
+t_point	*ft_lstnew(int row, int column);
+void	ft_lstadd_back(t_point **lst, t_point *new);
 int	**init_zeroes(int rows, int columns);
-void terminate_program(game *mygame, point *entrance);
-void throw_error(game *mygame, point *entrance);
-int key_pressed(int keysim, bank *param);
-int play(game *mygame, point *entrance);
-char	**init_map(char *file_name, game *mygame);
-point *get_info(char *file_name, game *mygame, int column);
-void set_up(game *mygame);
+void terminate_program(t_game *mygame, t_point *entrance);
+void throw_error(t_game *mygame, t_point *entrance);
+int key_pressed(int keysim, t_bank *param);
+int play(t_game *mygame, t_point *entrance);
+char	**init_map(char *file_name, t_game *mygame);
+t_point *get_info(char *file_name, t_game *mygame, int column);
+void set_up(t_game *mygame);
 int main(int argc, char **argv);
-void	add_neighbors(point **curr, game *mygame);
-void	set_visited(point *curr, game *mygame);
-void	next_curr(point **lst);
-int is_valid(game *mygame, point *curr);
-int move(int keysim, bank *data);
+void	add_neighbors(t_point **curr, t_game *mygame);
+void	set_visited(t_point *curr, t_game *mygame);
+void	next_curr(t_point **lst);
+int is_valid(t_game *mygame, t_point *curr);
+int move(int dx, int dy, t_bank *data);
+// void set_up_sprites(t_bank *data, int size);
+// void destroy_sprites(t_bank *data);
+void put_map(t_bank *data, int i, int j);
+void convert_to_move(int keysim, int *dx, int *dy);
+int handle_close(t_bank *data);

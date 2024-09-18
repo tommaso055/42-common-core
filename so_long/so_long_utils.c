@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-void terminate_program(game *mygame, point *entrance)
+void terminate_program(t_game *mygame, t_point *entrance)
 {
 	free(entrance);
 	while(mygame->rows--)
@@ -12,17 +12,17 @@ void terminate_program(game *mygame, point *entrance)
 	free(mygame->map);
 }
 
-void throw_error(game *mygame, point *entrance)
+void throw_error(t_game *mygame, t_point *entrance)
 {
 	printf("%s", "Error\nINCORRECT MAP FORMAT");
 	terminate_program(mygame, entrance);
 }
 
-point	*ft_lstnew(int row, int column)
+t_point	*ft_lstnew(int row, int column)
 {
-	point	*list;
+	t_point	*list;
 
-	list = (point *)malloc(sizeof(point));
+	list = (t_point *)malloc(sizeof(t_point));
 	if (!list)
 		return (NULL);
 	list->next = NULL;
@@ -31,9 +31,9 @@ point	*ft_lstnew(int row, int column)
 	return (list);
 }
 
-void	ft_lstadd_back(point **lst, point *new)
+void	ft_lstadd_back(t_point **lst, t_point *new)
 {
-	point	*curr;
+	t_point	*curr;
 
 	if (!new)
 		return ;
