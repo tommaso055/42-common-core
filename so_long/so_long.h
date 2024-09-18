@@ -94,3 +94,5 @@ void	destroy_sprites(t_bank *data);
 void	put_map(t_bank *data, t_sprites *info, int i, int j);
 void	convert_to_move(int keysim, int *dx, int *dy);
 int		handle_close(t_bank *data);
+int		check(char *f);
+int		check2(char *f);

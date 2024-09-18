@@ -60,3 +60,45 @@ int	play(t_game *mg, t_point *entrance)
 	mlx_loop(data.xvar);
 	return (0);
 }
+
+int	check2(char *f)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(f, O_RDONLY);
+	line = get_next_line(fd);
+	if (!line)
+	{
+		free(line);
+		close(fd);
+		return (1);
+	}
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	free(line);
+	close(fd);
+	return (0);
+}
+
+int	check(char *f)
+{
+	int		l;
+
+	l = ft_strlen(f);
+	if (f[l - 5] == '.' || f[l - 4] != '.' || f[l - 3] != 'b'
+		|| f[l - 2] != 'e' || f[l - 1] != 'r')
+	{
+		ft_printf("%s", "Incorrect map format\n");
+		return (1);
+	}
+	if (check2(f))
+	{
+		ft_printf("%s", "Impty file\n");
+		return (1);
+	}
+	return (0);
+}

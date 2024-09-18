@@ -73,39 +73,13 @@ void	set_up(t_game *mg)
 	mg->move_counter = 0;
 }
 
-int	check(char *f)
-{
-	int		fd;
-	char	*line;
-	int		l;
-
-	l = ft_strlen(f);
-	if (f[l - 5] == '.' || f[l - 4] != '.' || f[l - 3] != 'b'
-		|| f[l - 2] != 'e' || f[l - 1] != 'r')
-	{
-		ft_printf("%s", "incorrect map format");
-		return (1);
-	}
-	fd = open(f, O_RDONLY);
-	line = get_next_line(fd);
-	if (!line)
-	{
-		free(line);
-		close(fd);
-		return (1);
-	}
-	close(fd);
-	free (line);
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_game	mg;
 	t_point	*entrance;
 
 	if (argc != 2)
-		ft_printf("%s", "only one argument accepted");
+		ft_printf("%s", "Only one argument accepted\n");
 	if (argc != 2)
 		return (0);
 	if (check(argv[1]))
