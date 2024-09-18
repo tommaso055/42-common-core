@@ -2,49 +2,48 @@
 
 void	add_neighbors(t_point **curr, t_game *mygame)
 {
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = (*curr)->row;
 	j = (*curr)->column;
-	if(i-1 >= 0 && mygame->map[i-1][j] != WALL && mygame->visited[i-1][j] == 0)
+	if (i - 1 >= 0 && mygame->map[i - 1][j] != WALL && mygame->vis[i - 1][j] == 0)
 	{
-		ft_lstadd_back(curr, ft_lstnew(i-1, j));
+		ft_lstadd_back(curr, ft_lstnew(i - 1, j));
 		curr = &((*curr)->next);
 	}
-	if(i+1 < mygame->rows && mygame->map[i+1][j] != WALL && mygame->visited[i+1][j] == 0)
+	if (i + 1 < mygame->rows && mygame->map[i + 1][j] != WALL && mygame->vis[i + 1][j] == 0)
 	{
-		ft_lstadd_back(curr, ft_lstnew(i+1, j));
+		ft_lstadd_back(curr, ft_lstnew(i + 1, j));
 		curr = &((*curr)->next);
 	}
-	if(j-1 >= 0 && mygame->map[i][j-1] != WALL && mygame->visited[i][j-1] == 0)
+	if (j - 1 >= 0 && mygame->map[i][j - 1] != WALL && mygame->vis[i][j - 1] == 0)
 	{
-		ft_lstadd_back(curr, ft_lstnew(i, j-1));
+		ft_lstadd_back(curr, ft_lstnew(i, j - 1));
 		curr = &((*curr)->next);
 	}
-	if(j+1 < mygame->columns && mygame->map[i][j+1] != WALL && mygame->visited[i][j+1] == 0)
+	if (j + 1 < mygame->columns && mygame->map[i][j + 1] != WALL && mygame->vis[i][j + 1] == 0)
 	{
-		ft_lstadd_back(curr, ft_lstnew(i, j+1));
+		ft_lstadd_back(curr, ft_lstnew(i, j + 1));
 		curr = &((*curr)->next);
 	}
 }
 
 void	set_visited(t_point *curr, t_game *mygame)
 {
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = curr->row;
 	j = curr->column;
-	if(i-1 >= 0 && mygame->map[i-1][j] != WALL && mygame->visited[i-1][j] == 0)
-		mygame->visited[i-1][j]++;
-
-	if(i+1 < mygame->rows && mygame->map[i+1][j] != WALL && mygame->visited[i+1][j] == 0)
-		mygame->visited[i+1][j]++;
-	if(j-1 >= 0 && mygame->map[i][j-1] != WALL && mygame->visited[i][j-1] == 0)
-		mygame->visited[i][j-1]++;
-	if(j+1 < mygame->columns && mygame->map[i][j+1] != WALL && mygame->visited[i][j+1] == 0)
-		mygame->visited[i][j+1]++;
+	if (i - 1 >= 0 && mygame->map[i - 1][j] != WALL && mygame->vis[i - 1][j] == 0)
+		mygame->vis[i - 1][j]++;
+	if (i + 1 < mygame->rows && mygame->map[i + 1][j] != WALL && mygame->vis[i + 1][j] == 0)
+		mygame->vis[i + 1][j]++;
+	if (j - 1 >= 0 && mygame->map[i][j - 1] != WALL && mygame->vis[i][j - 1] == 0)
+		mygame->vis[i][j - 1]++;
+	if (j + 1 < mygame->columns && mygame->map[i][j + 1] != WALL && mygame->vis[i][j + 1] == 0)
+		mygame->vis[i][j + 1]++;
 }
 
 void	next_curr(t_point **lst)
@@ -56,11 +55,11 @@ void	next_curr(t_point **lst)
 	*lst = temp;
 }
 
-int check_perimeter_and_chars(t_game *mygame, int i, int j)
+int	check_perimeter_and_chars(t_game *mygame, int i, int j)
 {
-	char c;
+	char	c;
 
-	while(i < mygame->rows)
+	while (i < mygame->rows)
 	{
 		while (j < mygame->columns)
 		{
@@ -78,11 +77,11 @@ int check_perimeter_and_chars(t_game *mygame, int i, int j)
 	return (1);
 }
 
-int is_valid(t_game *mygame, t_point *curr)
+int	is_valid(t_game *mygame, t_point *curr)
 {
 	if (!check_perimeter_and_chars(mygame, 0, 0))
 		return (0);
-	mygame->visited[curr->row][curr->column]++;
+	mygame->vis[curr->row][curr->column]++;
 	while (curr)
 	{
 		if (mygame->map[curr->row][curr->column] == COLLECTIBLE)

@@ -1,20 +1,20 @@
 #include "so_long.h"
 
-void terminate_program(t_game *mygame, t_point *entrance)
+void	terminate_program(t_game *mygame, t_point *entrance)
 {
 	free(entrance);
-	while(mygame->rows--)
+	while (mygame->rows--)
 	{
-		free(mygame->visited[mygame->rows]);
+		free(mygame->vis[mygame->rows]);
 		free(mygame->map[mygame->rows]);
 	}
-	free(mygame->visited);
+	free(mygame->vis);
 	free(mygame->map);
 }
 
-void throw_error(t_game *mygame, t_point *entrance)
+void	throw_error(t_game *mygame, t_point *entrance)
 {
-	printf("%s", "Error\nINCORRECT MAP FORMAT");
+	ft_printf("%s", "Error\nINCORRECT MAP FORMAT");
 	terminate_program(mygame, entrance);
 }
 
@@ -50,8 +50,8 @@ void	ft_lstadd_back(t_point **lst, t_point *new)
 
 int	**init_zeroes(int rows, int columns)
 {
-	int **array;
-	int i;
+	int	**array;
+	int	i;
 	int	j;
 
 	i = -1;

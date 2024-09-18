@@ -1,6 +1,6 @@
 CFLAGS = #-Wall -Wextra -Werror
 LIBS = -L/nfs/homes/tdonato/42/so_long/minilibx-linux -lmlx_Linux -lX11 -lXext
-SRCS = so_long_main.c get_next_line_utils.c get_next_line.c so_long_flood_fill.c  so_long_utils.c so_long_play.c
+SRCS = so_long_main.c get_next_line_utils.c get_next_line.c so_long_flood_fill.c so_long_utils.c so_long_play.c ft_printf.c so_long_utils.c
 OBJ = $(SRCS:.c=.o)
 
 all: myprogram clean
