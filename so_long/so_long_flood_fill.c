@@ -97,14 +97,14 @@ int	is_valid(t_game *mg, t_point *curr)
 	while (curr)
 	{
 		if (mg->map[curr->row][curr->column] == COLL)
-			mg->reachable_collectibles++;
+			mg->reachable_coll++;
 		if (mg->map[curr->row][curr->column] == EXIT)
 			mg->checks++;
 		add_neighbors(&curr, mg);
 		set_visited(curr, mg);
 		next_curr(&curr);
 	}
-	if (mg->reachable_collectibles < mg->n_collectibles || mg->checks != 1)
+	if (mg->reachable_coll < mg->n_coll || mg->checks != 1)
 		return (0);
 	return (1);
 }

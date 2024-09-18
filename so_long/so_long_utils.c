@@ -26,7 +26,7 @@ void	terminate_program(t_game *mg, t_point *entrance)
 
 void	throw_error(t_game *mg, t_point *entrance)
 {
-	ft_printf("%s", "Error\nINCORRECT MAP FORMAT");
+	ft_printf("%s", "Error\nINVALID MAP");
 	terminate_program(mg, entrance);
 }
 

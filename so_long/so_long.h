@@ -46,11 +46,11 @@ typedef struct s_game
 	int		**vis;
 	int		cols;
 	int		rows;
-	int		n_collectibles;
+	int		n_coll;
 	int		n_entrances;
 	int		n_exits;
 	int		checks;
-	int		reachable_collectibles;
+	int		reachable_coll;
 	int		move_counter;
 }	t_game;
 

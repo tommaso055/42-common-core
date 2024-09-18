@@ -49,7 +49,7 @@ t_point	*get_info(char *file_name, t_game *mg, int column)
 			if (line[column] == ENTR && mg->n_entrances++ == 0)
 				entrance = ft_lstnew(mg->rows, column);
 			if (line[column] == COLL)
-				(mg->n_collectibles)++;
+				(mg->n_coll)++;
 			if (line[column++] == EXIT)
 				(mg->n_exits)++;
 		}
@@ -64,13 +64,39 @@ t_point	*get_info(char *file_name, t_game *mg, int column)
 
 void	set_up(t_game *mg)
 {
-	mg->n_collectibles = 0;
+	mg->n_coll = 0;
 	mg->n_entrances = 0;
 	mg->rows = 0;
 	mg->n_exits = 0;
 	mg->checks = 0;
-	mg->reachable_collectibles = 0;
+	mg->reachable_coll = 0;
 	mg->move_counter = 0;
+}
+
+int	check(char *f)
+{
+	int		fd;
+	char	*line;
+	int		l;
+
+	l = ft_strlen(f);
+	if (f[l - 5] == '.' || f[l - 4] != '.' || f[l - 3] != 'b'
+		|| f[l - 2] != 'e' || f[l - 1] != 'r')
+	{
+		ft_printf("%s", "incorrect map format");
+		return (1);
+	}
+	fd = open(f, O_RDONLY);
+	line = get_next_line(fd);
+	if (!line)
+	{
+		free(line);
+		close(fd);
+		return (1);
+	}
+	close(fd);
+	free (line);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -79,14 +105,16 @@ int	main(int argc, char **argv)
 	t_point	*entrance;
 
 	if (argc != 2)
-	{
-		ft_printf("%s", "solo un argomento, scemo");
+		ft_printf("%s", "only one argument accepted");
+	if (argc != 2)
 		return (0);
-	}
+	if (check(argv[1]))
+		return (0);
 	set_up(&mg);
 	entrance = get_info(argv[1], &mg, 0);
 	init_map(argv[1], &mg);
-	if (mg.n_entrances != 1 || mg.n_exits != 1 || mg.checks > 0)
+	if (mg.n_entrances != 1 || mg.n_exits != 1
+		|| mg.checks > 0 || mg.n_coll == 0)
 	{
 		throw_error(&mg, entrance);
 		return (0);
@@ -97,6 +125,5 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	play(&mg, entrance);
-	terminate_program(&mg, entrance);
 	return (0);
 }

@@ -81,10 +81,10 @@ void	move(int dr, int dc, t_bank *data)
 		else
 			data->mg->map[data->p->row][data->p->column] = EMPTY;
 		if (data->mg->map[data->p->row + dc][data->p->column + dr] == COLL)
-			data->mg->reachable_collectibles--;
+			data->mg->reachable_coll--;
 		if (data->mg->map[data->p->row + dc][data->p->column + dr] == EXIT)
 		{
-			if (!data->mg->reachable_collectibles)
+			if (!data->mg->reachable_coll)
 			{
 				ft_printf("%s", "YOU WON!");
 				key_pressed(XK_Escape, data);
