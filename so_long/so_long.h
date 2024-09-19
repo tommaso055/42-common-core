@@ -97,3 +97,4 @@ int		handle_close(t_bank *data);
 int		check(char *f);
 int		check2(char *f);
 void	destroy_array(int **array, int rows);
+int		check_perimeter_and_chars(t_game *mg, int i, int j);

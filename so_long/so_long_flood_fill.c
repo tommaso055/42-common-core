@@ -91,9 +91,6 @@ int	check_perimeter_and_chars(t_game *mg, int i, int j)
 
 int	is_valid(t_game *mg, t_point *curr)
 {
-	if (!check_perimeter_and_chars(mg, 0, 0))
-		return (0);
-	printf("qui\n");
 	mg->vis = init_zeroes(mg->rows, mg->cols, mg, curr);
 	mg->vis[curr->row][curr->column]++;
 	while (curr)
