@@ -1,10 +1,4 @@
-#include <stdlib.h>
-
-typedef struct t_list
-{
-	int content;
-	struct t_list *next;
-} t_list;
+#include "push_swap.h"
 
 t_list *gen_list(char **argv)
 {
