@@ -87,9 +87,18 @@ int	check2(char *f)
 int	check(char *f)
 {
 	int		l;
+	int		i;
 
 	l = ft_strlen(f);
-	if (f[l - 5] == '.' || f[l - 4] != '.' || f[l - 3] != 'b'
+	while (i < l - 4)
+	{
+		if (f[i++] == '.')
+		{
+			ft_printf("%s", "Incorrect map format\n");
+			return (1);
+		}
+	}
+	if (l < 4 || f[l - 4] != '.' || f[l - 3] != 'b'
 		|| f[l - 2] != 'e' || f[l - 1] != 'r')
 	{
 		ft_printf("%s", "Incorrect map format\n");
