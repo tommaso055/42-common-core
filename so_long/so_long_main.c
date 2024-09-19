@@ -12,9 +12,9 @@
 
 #include "so_long.h"
 
-void destroy_array(int **array, int rows) 
+void	destroy_array(int **array, int rows)
 {
-	int i;
+	int	i;
 
 	if (array != NULL)
 	{
@@ -94,7 +94,6 @@ int	main(int argc, char **argv)
 	t_game	mg;
 	t_point	*entrance;
 
-	
 	if (argc != 2)
 		ft_printf("%s", "Only one argument accepted\n");
 	if (argc != 2)
