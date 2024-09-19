@@ -75,9 +75,9 @@ typedef struct s_bank
 
 t_point	*ft_lstnew(int row, int column);
 void	ft_lstadd_back(t_point **lst, t_point *new);
-int		**init_zeroes(int rows, int columns);
-void	terminate_program(t_game *mg, t_point *entrance);
-void	throw_error(t_game *mg, t_point *entrance);
+int		**init_zeroes(int rows, int columns, t_game *mg, t_point *entrance);
+void	terminate_program(t_game *mg, t_point *entrance, int flag);
+void	throw_error(t_game *mg, t_point *entrance, int flag);
 int		key_pressed(int keysim, t_bank *param);
 int		play(t_game *mg, t_point *entrance);
 char	**init_map(char *file_name, t_game *mg);
@@ -96,3 +96,4 @@ void	convert_to_move(int keysim, int *dx, int *dy);
 int		handle_close(t_bank *data);
 int		check(char *f);
 int		check2(char *f);
+void	destroy_array(int **array, int rows);

@@ -12,6 +12,23 @@
 
 #include "so_long.h"
 
+void destroy_array(int **array, int rows) 
+{
+	int i;
+
+	if (array != NULL)
+	{
+		i = 0;
+		while (i < rows)
+		{
+			if (array[i] != NULL)
+				free(array[i]);
+			i++;
+		}
+		free(array);
+	}
+}
+
 char	**init_map(char *file_name, t_game *mg)
 {
 	int		i;
@@ -29,7 +46,6 @@ char	**init_map(char *file_name, t_game *mg)
 		i++;
 	}
 	close (fd);
-	mg->vis = init_zeroes(mg->rows, mg->cols);
 	return (mg->map);
 }
 
@@ -78,6 +94,7 @@ int	main(int argc, char **argv)
 	t_game	mg;
 	t_point	*entrance;
 
+	
 	if (argc != 2)
 		ft_printf("%s", "Only one argument accepted\n");
 	if (argc != 2)
@@ -89,15 +106,9 @@ int	main(int argc, char **argv)
 	init_map(argv[1], &mg);
 	if (mg.n_entrances != 1 || mg.n_exits != 1
 		|| mg.checks > 0 || mg.n_coll == 0)
-	{
-		throw_error(&mg, entrance);
-		return (0);
-	}
+		throw_error(&mg, entrance, mg.n_entrances);
 	if (!is_valid(&mg, ft_lstnew(entrance->row, entrance->column)))
-	{
-		throw_error(&mg, entrance);
-		return (0);
-	}
+		throw_error(&mg, entrance, 1);
 	play(&mg, entrance);
 	return (0);
 }

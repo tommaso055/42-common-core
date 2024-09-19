@@ -12,22 +12,20 @@
 
 #include "so_long.h"
 
-void	terminate_program(t_game *mg, t_point *entrance)
+void	terminate_program(t_game *mg, t_point *entrance, int flag)
 {
-	free(entrance);
+	if (flag)
+		free(entrance);
 	while (mg->rows--)
-	{
-		free(mg->vis[mg->rows]);
 		free(mg->map[mg->rows]);
-	}
-	free(mg->vis);
 	free(mg->map);
+	exit(0);
 }
 
-void	throw_error(t_game *mg, t_point *entrance)
+void	throw_error(t_game *mg, t_point *entrance, int flag)
 {
 	ft_printf("%s", "Error\nINVALID MAP");
-	terminate_program(mg, entrance);
+	terminate_program(mg, entrance, flag);
 }
 
 t_point	*ft_lstnew(int row, int column)
@@ -60,7 +58,7 @@ void	ft_lstadd_back(t_point **lst, t_point *new)
 	curr->next = new;
 }
 
-int	**init_zeroes(int rows, int columns)
+int	**init_zeroes(int rows, int columns, t_game *mg, t_point *entrance)
 {
 	int	**array;
 	int	i;
@@ -69,9 +67,19 @@ int	**init_zeroes(int rows, int columns)
 	i = -1;
 	j = -1;
 	array = malloc(sizeof(int *) * rows);
+	if (!array)
+	{
+		free(array);
+		terminate_program(mg, entrance, 1);
+	}
 	while (++i < rows)
 	{
 		array[i] = malloc(sizeof(int) * columns);
+		if (!array[i])
+		{
+			destroy_array(array, i);
+			terminate_program(mg, entrance, 1);
+		}
 		while (++j < columns)
 			array[i][j] = 0;
 		j = -1;

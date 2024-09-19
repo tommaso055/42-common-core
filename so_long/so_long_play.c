@@ -31,8 +31,7 @@ int	key_pressed(int keysim, t_bank *data)
 		mlx_destroy_window(data->xvar, data->window);
 		mlx_destroy_display(data->xvar);
 		free(data->xvar);
-		terminate_program(data->mg, data->p);
-		exit(0);
+		terminate_program(data->mg, data->p, 1);
 	}
 	return (0);
 }
@@ -90,6 +89,7 @@ int	check(char *f)
 	int		i;
 
 	l = ft_strlen(f);
+	i = 0;
 	while (i < l - 4)
 	{
 		if (f[i++] == '.')
