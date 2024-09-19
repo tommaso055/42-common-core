@@ -3,35 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*   By: tdonato <marvin@42.fr>                     +# +  +:+       +# +      */
+/*                                                +# +#+#+#+#+   +#+          */
 /*   Created: 2024/09/18 17:30:07 by tdonato           #+#    #+#             */
 /*   Updated: 2024/09/18 17:30:10 by tdonato          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx-linux/mlx.h"
-#include <stdio.h>
-#include <X11/keysym.h>
-#include <fcntl.h>
-#include "get_next_line.h"
-#include "ft_printf.h"
+#ifndef SO_LONG_H
+# define SO_LONG_H
+# include "minilibx-linux/mlx.h"
+# include <stdio.h>
+# include <X11/keysym.h>
+# include <fcntl.h>
+# include "get_next_line.h"
+# include "ft_printf.h"
 
-#define EMPTY '0'
-#define WALL '1'
-#define COLL 'C'
-#define EXIT 'E'
-#define ENTR 'P'
+# define EMPTY '0'
+# define WALL '1'
+# define COLL 'C'
+# define EXIT 'E'
+# define ENTR 'P'
 
-#define BOOK "textures/Book.xpm"
-#define STONE "textures/Stone.xpm"
-#define GRASS "textures/Grass.xpm"
-#define VORTEX "textures/Vortex.xpm"
-#define PLAYER "textures/Player.xpm"
-#define PLAYER_EXIT "textures/Player_Exit.xpm"
-#define TILE_SIZE 128
+# define BOOK "textures/Book.xpm"
+# define STONE "textures/Stone.xpm"
+# define GRASS "textures/Grass.xpm"
+# define VORTEX "textures/Vortex.xpm"
+# define PLAYER "textures/Player.xpm"
+# define PLAYER_EXIT "textures/Player_Exit.xpm"
+# define TILE_SIZE 128
 
-#define PUT_IMG mlx_put_image_to_window
+# define PUT_IMG mlx_put_image_to_window
 
 typedef struct s_point
 {
@@ -97,4 +99,6 @@ int		handle_close(t_bank *data);
 int		check(char *f);
 int		check2(char *f);
 void	destroy_array(int **array, int rows);
-int		check_perimeter_and_chars(t_game *mg, int i, int j);
+int		check_p_and_c(t_game *mg, int i, int j);
+
+#endif

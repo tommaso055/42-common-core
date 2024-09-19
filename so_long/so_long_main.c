@@ -104,7 +104,7 @@ int	main(int argc, char **argv)
 	entrance = get_info(argv[1], &mg, 0);
 	init_map(argv[1], &mg);
 	if (mg.n_entrances != 1 || mg.n_exits != 1
-		|| mg.checks > 0 || mg.n_coll == 0 || !check_perimeter_and_chars(&mg, 0, 0))
+		|| mg.checks > 0 || mg.n_coll == 0 || !check_p_and_c(&mg, 0, 0))
 		throw_error(&mg, entrance, mg.n_entrances);
 	if (!is_valid(&mg, ft_lstnew(entrance->row, entrance->column)))
 		throw_error(&mg, entrance, 1);

@@ -67,7 +67,7 @@ void	next_curr(t_point **lst)
 	*lst = temp;
 }
 
-int	check_perimeter_and_chars(t_game *mg, int i, int j)
+int	check_p_and_c(t_game *mg, int i, int j)
 {
 	char	c;
 
