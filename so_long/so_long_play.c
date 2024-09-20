@@ -94,19 +94,19 @@ int	check(char *f)
 	{
 		if (f[i++] == '.')
 		{
-			ft_printf("%s", "Incorrect map format\n");
+			ft_printf("%s", "Error\nIncorrect map format\n");
 			return (1);
 		}
 	}
 	if (l < 4 || f[l - 4] != '.' || f[l - 3] != 'b'
 		|| f[l - 2] != 'e' || f[l - 1] != 'r')
 	{
-		ft_printf("%s", "Incorrect map format\n");
+		ft_printf("%s", "Error\nIncorrect map format\n");
 		return (1);
 	}
 	if (check2(f))
 	{
-		ft_printf("%s", "Empty  or inexistent file\n");
+		ft_printf("%s", "Error\nEmpty  or inexistent file\n");
 		return (1);
 	}
 	return (0);

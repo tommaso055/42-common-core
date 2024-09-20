@@ -95,7 +95,7 @@ int	main(int argc, char **argv)
 	t_point	*entrance;
 
 	if (argc != 2)
-		ft_printf("%s", "Only one argument accepted\n");
+		ft_printf("%s", "Error\nOnly one argument accepted\n");
 	if (argc != 2)
 		return (0);
 	if (check(argv[1]))
