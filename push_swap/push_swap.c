@@ -1,11 +1,5 @@
 #include "push_swap.h"
 
-void	set_up(t_push_swap	*info)
-{
-	info->length_a = find_length(info->stack_a);
-	info->length_b = 1;
-}
-
 int	main(int argc, char **argv)
 {
 	t_push_swap	info;
@@ -17,18 +11,23 @@ int	main(int argc, char **argv)
 	*info.stack_b = NULL;
 	if (find_length(info.stack_a) < 2 || check_duplicates(info.stack_a))
 		terminate(info.stack_a, info.stack_b);
-	write(1, "pb\n", 3);
-    push(info.stack_b, info.stack_a);
-	set_up(&info);
-	
-	while (info.length_a > 3)
-		make_move(&info);
-	if (find_length(info.stack_a) == 3)
-		solve_three(&info);
-	else if (find_length(info.stack_a) == 2)
+	info.length_a = find_length(info.stack_a);
+	info.length_b = 0;
+	info.rotations = 0;
+	if (info.length_a == 2)
+	{
 		solve_two(&info);
+		terminate(info.stack_a, info.stack_b);
+	}
+	pb(&info);
+	while (info.length_a > 2)
+		make_move(&info);
+	solve_two(&info);
 	while (info.length_b)
 		push_back(&info);
+	while (info.rotations < 2)
+		rra(&info);
+	terminate(info.stack_a, info.stack_b);
 }
 
 int	check_duplicates(t_list **stack_a)
@@ -51,17 +50,32 @@ int	check_duplicates(t_list **stack_a)
 	return (0);
 }
 
-void	solve_three(t_list **stack_a)
+void	solve_two(t_push_swap *info)
 {
-
+	if ((*(info->stack_a))->content > (*(info->stack_a))->next->content)
+		ra(&info);
+	info->higher = (*(info->stack_a))->next->content;
+	info->lower = (*(info->stack_a))->content;
 }
 
-void	solve_two(t_list **stack_a)
+void	push_back(t_push_swap *info)
 {
-
+	if (info->rotations == 0)
+	{
+		if ((*(info->stack_a))->content < info->higher)
+		{
+			rra(info);
+			info->rotations++;
+		}
+	}
+	if (info->rotations == 1)
+	{
+		if ((*(info->stack_a))->content < info->lower)
+		{
+			rra(info);
+			info->rotations++;
+		}
+	}
+	pa(info);
 }
 
-void	push_back(t_push_swap	*info)
-{
-
-}

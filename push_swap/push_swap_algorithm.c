@@ -19,6 +19,11 @@ void	make_move(t_push_swap	*info)
 		vars.position++;
 		curr = curr->next;
 	}
+    vars.target_position = find_target_position(info->stack_b, vars.best_content);
+    
+    // push to b
+    // best position
+    // target position
 }
 
 void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)
