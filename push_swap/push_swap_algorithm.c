@@ -20,10 +20,26 @@ void	make_move(t_push_swap	*info)
 		curr = curr->next;
 	}
     vars.target_position = find_target_position(info->stack_b, vars.best_content);
-    
-    // push to b
-    // best position
-    // target position
+    push_to_b(info, vars.best_position, vars.target_position);
+}
+
+void    push_to_b(t_push_swap *info, int source_position, int target_position)
+{
+	int	ra;
+	int	rra;
+	int	rb;
+	int	rrb;
+    int rr;
+    int rrr;
+
+	ra = source_position;
+	rb = target_position;
+	rra = info->length_a - ra;
+	rrb = info->length_b - rb;
+
+    // cavoloOOOOOOOOOO
+
+	pb(info);
 }
 
 void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)

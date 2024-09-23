@@ -53,3 +53,4 @@ void	pa(t_push_swap	*info);
 void	pa(t_push_swap	*info);
 int		check_duplicates(t_list **stack_a);
 void	make_move(t_push_swap	*info);
+void    push_to_b(t_push_swap *info, int from, int to);
