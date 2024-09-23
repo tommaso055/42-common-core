@@ -1,5 +1,5 @@
 CFLAGS = #-Wall -Wextra -Werror
-SRCS = tester.c push_swap_utils.c
+SRCS = push_swap.c push_swap_algorithm.c push_swap_utils.c push.c reverse_rotate.c rotate.c swap.c
 OBJ = $(SRCS:.c=.o)
 
 all: myprogram clean

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 typedef struct	s_list
 {
@@ -58,7 +59,16 @@ void	sa(t_push_swap	*info);
 void	sb(t_push_swap	*info);
 void	ss(t_push_swap	*info);
 void	pa(t_push_swap	*info);
-void	pa(t_push_swap	*info);
+void	pb(t_push_swap	*info);
 int		check_duplicates(t_list **stack_a);
 void	make_move(t_push_swap	*info);
 void    push_to_b(t_push_swap *info, int from, int to);
+void	arrange(t_push_swap *info, t_moves *moves);
+void	set_zero(int *a, int *b);
+void	solve_two(t_push_swap *info);
+void	push_back(t_push_swap *info);
+void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr);
+int	count_moves(t_push_swap	*info, int position, int content);
+int	find_target_position(t_list **stack_b, int a_c);
+int max(int a, int b);
+int	min(int a, int b, int c, int d);
