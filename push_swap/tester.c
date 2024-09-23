@@ -153,7 +153,7 @@ void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)
 {
 	*curr = *(info->stack_a);
 	vars->position = 1;
-	vars->least_moves = count_moves(info, vars->position, (*curr)->content);
+	vars->least_moves = count_moves(info, 0, (*curr)->content);
 	vars->best_content = (*curr)->content;
 	vars->best_position = 0;
 }
