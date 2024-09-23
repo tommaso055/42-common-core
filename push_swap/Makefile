@@ -6,13 +6,13 @@ all: myprogram clean
 
 myprogram: $(SRCS)
 	gcc $(CFLAGS) -c $(SRCS)
-	gcc $(OBJ) -o test
+	gcc $(OBJ) -o push_swap
 
 clean:
 	rm -f $(OBJ)
 
 fclean:
-	rm -f $(OBJ) test
+	rm -f $(OBJ) push_swap
 
 re: fclean all
 .PHONY: all clean fclean
