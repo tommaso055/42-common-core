@@ -53,7 +53,7 @@ int	check_duplicates(t_list **stack_a)
 void	solve_two(t_push_swap *info)
 {
 	if ((*(info->stack_a))->content > (*(info->stack_a))->next->content)
-		ra(&info);
+		ra(info);
 	info->higher = (*(info->stack_a))->next->content;
 	info->lower = (*(info->stack_a))->content;
 }

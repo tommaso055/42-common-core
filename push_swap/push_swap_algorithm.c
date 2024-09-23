@@ -23,23 +23,57 @@ void	make_move(t_push_swap	*info)
     push_to_b(info, vars.best_position, vars.target_position);
 }
 
+void	set_zero(int *a, int *b)
+{
+	*a = 0;
+	*b = 0;
+}
+
 void    push_to_b(t_push_swap *info, int source_position, int target_position)
 {
-	int	ra;
-	int	rra;
-	int	rb;
-	int	rrb;
-    int rr;
-    int rrr;
+	t_moves	m;
+	int	min_m;
 
-	ra = source_position;
-	rb = target_position;
-	rra = info->length_a - ra;
-	rrb = info->length_b - rb;
+	m.ra = source_position;
+	m.rb = target_position;
+	m.rra = info->length_a - m.ra;
+	m.rrb = info->length_b - m.rb;
 
-    // cavoloOOOOOOOOOO
-
+	min_m = min(max(m.ra, m.rb), max(m.rra, m.rrb), m.ra + m.rrb, m.rb + m.rra);
+	if (max(m.ra, m.rb) <= min_m)
+		set_zero(&m.rra, &m.rrb);
+	else if (max(m.ra, m.rb) <= min_m)
+		set_zero(&m.rra, &m.rrb);
+	else if(m.ra + m.rrb <= min_m)
+		set_zero(&m.rra, &m.rb);
+	else if(m.rb + m.rra <= min_m)
+		set_zero(&m.ra, &m.rrb);
+	arrange(info, &m);
 	pb(info);
+}
+
+void	arrange(t_push_swap *info, t_moves *moves)
+{
+	while (moves->ra > 0 && moves->rb > 0)
+	{
+		moves->ra--;
+		moves->rb--;
+		rr(info);
+	}
+	while (moves->rra > 0 && moves->rrb > 0)
+	{
+		moves->rra--;
+		moves->rrb--;
+		rrr(info);
+	}
+	while ((moves->ra)-- > 0)
+		ra(info);
+	while ((moves->rb)-- > 0)
+		rb(info);
+	while ((moves->ra)-- > 0)
+		ra(info);
+	while ((moves->ra)-- > 0)
+		ra(info);
 }
 
 void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)

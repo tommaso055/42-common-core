@@ -28,6 +28,14 @@ typedef struct s_make_move
 	int		target_position;
 }	t_make_move;
 
+typedef struct s_moves
+{
+	int ra;
+	int rb;
+	int rra;
+	int rrb;
+}	t_moves;
+
 void	ft_lstclear(t_list **lst);
 int		ft_atoi(const char *str);
 t_list	*ft_lstnew(int content);
