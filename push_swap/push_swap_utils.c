@@ -1,35 +1,53 @@
 #include "push_swap.h"
 
-int	find_max(t_list **head)
-{
-	int		max;
-	t_list	*curr;
+// int	find_max(t_list **head)
+// {
+// 	int		max;
+// 	t_list	*curr;
 
-	curr = *head;
-	max = curr->content;
-	while (curr->next)
-	{
-		curr = curr->next;
-		if (curr->content > max)
-			max = curr->content;
-	}
-	return (max);
+// 	curr = *head;
+// 	max = curr->content;
+// 	while (curr->next)
+// 	{
+// 		curr = curr->next;
+// 		if (curr->content > max)
+// 			max = curr->content;
+// 	}
+// 	return (max);
+// }
+
+// int	find_min(t_list **head)
+// {
+// 	int		min;
+// 	t_list	*curr;
+
+// 	curr = *head;
+// 	min = curr->content;
+// 	while (curr->next)
+// 	{
+// 		curr = curr->next;
+// 		if (curr->content < min)
+// 			min = curr->content;
+// 	}
+// 	return (min);
+// }
+
+int max(int a, int b)
+{
+	if (b > a)
+		return (b);
+	return (a);
 }
 
-int	find_min(t_list **head)
+int	min(int a, int b, int c, int d)
 {
-	int		min;
-	t_list	*curr;
-
-	curr = *head;
-	min = curr->content;
-	while (curr->next)
-	{
-		curr = curr->next;
-		if (curr->content < min)
-			min = curr->content;
-	}
-	return (min);
+	if (d < a && d < b && d < c)
+		return (d);
+	if (c < a && c < b && c < d)
+		return (c);
+	if (b < a && b < c && b < d)
+		return (b);
+	return (a);
 }
 
 int	find_length(t_list **head)

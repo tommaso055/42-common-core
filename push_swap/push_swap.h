@@ -11,13 +11,19 @@ typedef struct	s_push_swap
 {
 	int		length_a;
 	int		length_b;
-	int		max_a;
-	int		max_b;
-	int		min_a;
-	int		min_b;
 	t_list	**stack_a;
 	t_list	**stack_b;
 }	t_push_swap;
+
+typedef struct s_make_move
+{
+	int		best_content;
+	int		position;
+	int		best_position;
+	int		least_moves;
+	int		moves;
+}	t_make_move;
+
 
 
 void	ft_lstclear(t_list **lst);
@@ -29,8 +35,8 @@ void	swap(t_list **head);
 void	push(t_list **target, t_list **source);
 void	reverse_rotate(t_list **head);
 void	rotate(t_list **head);
-int		find_max(t_list **head);
-int		find_min(t_list **head);
+// int		find_max(t_list **head);
+// int		find_min(t_list **head);
 int		find_length(t_list **head);
 void	ra(t_push_swap	*info);
 void	rb(t_push_swap	*info);
@@ -43,6 +49,6 @@ void	sb(t_push_swap	*info);
 void	ss(t_push_swap	*info);
 void	pa(t_push_swap	*info);
 void	pa(t_push_swap	*info);
-int		check_duplicates(t_list **head);
-void	find_move(t_list **stack_a, t_list **stack_b);
+int		check_duplicates(t_list **stack_a);
+void	make_move(t_push_swap	*info);
 void	set_up(t_push_swap	*info);

@@ -18,10 +18,6 @@ void	pa(t_push_swap	*info)
     push(info->stack_a, info->stack_b);
     info->length_a++;
     info->length_b--;
-    info->max_a = find_max(info->stack_a);
-    info->min_a = find_min(info->stack_a);
-    info->max_b = find_max(info->stack_b);
-    info->min_b = find_min(info->stack_b);
 }
 
 void	pb(t_push_swap	*info)
@@ -30,8 +26,4 @@ void	pb(t_push_swap	*info)
     push(info->stack_b, info->stack_a);
     info->length_a--;
     info->length_b++;
-    info->max_a = find_max(info->stack_a);
-    info->min_a = find_min(info->stack_a);
-    info->max_b = find_max(info->stack_b);
-    info->min_b = find_min(info->stack_b);
 }
