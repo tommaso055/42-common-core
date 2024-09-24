@@ -19,8 +19,8 @@ void	make_move(t_push_swap	*info)
 		vars.position++;
 		curr = curr->next;
 	}
-    vars.target_position = find_target_position(info->stack_b, vars.best_content);
-    push_to_b(info, vars.best_position, vars.target_position);
+	vars.target_position = find_target_position(info->stack_b, vars.best_content);
+	push_to_b(info, vars.best_position, vars.target_position);
 }
 
 void	set_zero(int *a, int *b)
@@ -29,24 +29,23 @@ void	set_zero(int *a, int *b)
 	*b = 0;
 }
 
-void    push_to_b(t_push_swap *info, int source_position, int target_position)
+void	push_to_b(t_push_swap *info, int source_position, int target_position)
 {
 	t_moves	m;
-	int	min_m;
+	int		min_m;
 
 	m.ra = source_position;
 	m.rb = target_position;
 	m.rra = info->length_a - m.ra;
 	m.rrb = info->length_b - m.rb;
-
 	min_m = min(max(m.ra, m.rb), max(m.rra, m.rrb), m.ra + m.rrb, m.rb + m.rra);
 	if (max(m.ra, m.rb) <= min_m)
 		set_zero(&m.rra, &m.rrb);
 	else if (max(m.rra, m.rrb) <= min_m)
 		set_zero(&m.ra, &m.rb);
-	else if(m.ra + m.rrb <= min_m)
+	else if (m.ra + m.rrb <= min_m)
 		set_zero(&m.rra, &m.rb);
-	else if(m.rb + m.rra <= min_m)
+	else if (m.rb + m.rra <= min_m)
 		set_zero(&m.ra, &m.rrb);
 	arrange(info, &m);
 	pb(info);

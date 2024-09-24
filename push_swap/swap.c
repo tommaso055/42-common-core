@@ -14,19 +14,19 @@ void	swap(t_list **head)
 
 void	sa(t_push_swap	*info)
 {
-    write(1, "sa\n", 3);
-    swap(info->stack_a);
+	write(1, "sa\n", 3);
+	swap(info->stack_a);
 }
 
 void	sb(t_push_swap	*info)
 {
-    write(1, "sb\n", 3);
-    swap(info->stack_b);
+	write(1, "sb\n", 3);
+	swap(info->stack_b);
 }
 
 void	ss(t_push_swap	*info)
 {
-    write(1, "ss\n", 3);
-    swap(info->stack_a);
-    swap(info->stack_b);
+	write(1, "ss\n", 3);
+	swap(info->stack_a);
+	swap(info->stack_b);
 }

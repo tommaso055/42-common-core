@@ -16,19 +16,19 @@ void	reverse_rotate(t_list **head)
 
 void	rra(t_push_swap	*info)
 {
-    write(1, "rra\n", 4);
-    reverse_rotate(info->stack_a);
+	write(1, "rra\n", 4);
+	reverse_rotate(info->stack_a);
 }
 
 void	rrb(t_push_swap	*info)
 {
-    write(1, "rrb\n", 4);
-    reverse_rotate(info->stack_b);
+	write(1, "rrb\n", 4);
+	reverse_rotate(info->stack_b);
 }
 
 void	rrr(t_push_swap	*info)
 {
-    write(1, "rrr\n", 4);
-    reverse_rotate(info->stack_a);
-    reverse_rotate(info->stack_b);
+	write(1, "rrr\n", 4);
+	reverse_rotate(info->stack_a);
+	reverse_rotate(info->stack_b);
 }

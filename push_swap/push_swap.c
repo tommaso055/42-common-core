@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 	while (info.length_a > 2)
 		make_move(&info);
 	solve_two(&info);
-    order_b(&info);
+	order_b(&info);
 	while (info.length_b)
 		push_back(&info);
 	while (info.rotations++ < 2)
@@ -55,35 +55,35 @@ int	check_duplicates(t_list **stack_a)
 
 void	order_b(t_push_swap *info)
 {
-    int best_position;
-    int best_content;
-    int position;
-    t_list *curr;
-    t_moves moves;
+	int		best_position;
+	int		best_content;
+	int		position;
+	t_list	*curr;
+	t_moves	moves;
 
-    position = 1;
-    best_position = 0;
-    best_content = (*(info->stack_b))->content;
-    curr = (*(info->stack_b))->next;
-    while (curr)
-    {
-        if (curr->content > best_content)
-        {
-            best_content = curr->content;
-            best_position = position;
-        }
-        curr = curr->next;
-        position++;
-    }
-    moves.rrb = 0;
-    moves.ra = 0;
-    moves.rra = 0;
-    moves.rb = 0;
-    if (best_position < info->length_b - best_position)
-        moves.rb = best_position;
-    else
-        moves.rrb = info->length_b - best_position;
-    arrange(info, &moves);
+	position = 1;
+	best_position = 0;
+	best_content = (*(info->stack_b))->content;
+	curr = (*(info->stack_b))->next;
+	while (curr)
+	{
+		if (curr->content > best_content)
+		{
+			best_content = curr->content;
+			best_position = position;
+		}
+		curr = curr->next;
+		position++;
+	}
+	moves.rrb = 0;
+	moves.ra = 0;
+	moves.rra = 0;
+	moves.rb = 0;
+	if (best_position < info->length_b - best_position)
+		moves.rb = best_position;
+	else
+		moves.rrb = info->length_b - best_position;
+	arrange(info, &moves);
 }
 
 void	solve_two(t_push_swap *info)

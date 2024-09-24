@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-int max(int a, int b)
+int	max(int a, int b)
 {
 	if (b > a)
 		return (b);
@@ -46,9 +46,8 @@ void	ft_lstclear(t_list **lst)
 		curr = (*lst)->next;
 		free(*lst);
 		*lst = curr;
-		
 	}
-    free(lst);
+	free(lst);
 }
 
 int	ft_atoi(const char *str)
@@ -91,7 +90,7 @@ t_list	*ft_lstnew(int content)
 void	terminate(t_list **stack_a, t_list **stack_b)
 {
 	ft_lstclear(stack_a);
-    ft_lstclear(stack_b);
+	ft_lstclear(stack_b);
 	exit(1);
 }
 
@@ -111,7 +110,7 @@ t_list	**init_stack(int argc, char **argv)
 		terminate(head, NULL);
 	*head = ft_lstnew(n);
 	last = (*head);
-	while(++i < argc)
+	while (++i < argc)
 	{
 		n = ft_atoi(argv[i]);
 		if (!n && argv[i][0] != '0')
