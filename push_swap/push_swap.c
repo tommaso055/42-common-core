@@ -1,11 +1,8 @@
 #include "push_swap.h"
 
-int	main()
+int	main(int argc, char **argv)
 {
 	t_push_swap	info;
-
-	int argc = 10;
-	char *argv[10] = {"push_swap", "5", "2", "7", "1", "6", "3", "9", "4", "8"};
 
 	info.stack_a = init_stack(argc, argv);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
