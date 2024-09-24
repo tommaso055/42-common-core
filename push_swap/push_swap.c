@@ -1,8 +1,11 @@
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+int	main()
 {
 	t_push_swap	info;
+
+	int argc = 10;
+	char *argv[10] = {"push_swap", "5", "2", "7", "1", "6", "3", "9", "4", "8"};
 
 	info.stack_a = init_stack(argc, argv);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
@@ -62,7 +65,7 @@ void	push_back(t_push_swap *info)
 {
 	if (info->rotations == 0)
 	{
-		if ((*(info->stack_a))->content < info->higher)
+		if ((*(info->stack_b))->content < info->higher)
 		{
 			rra(info);
 			info->rotations++;
@@ -70,7 +73,7 @@ void	push_back(t_push_swap *info)
 	}
 	if (info->rotations == 1)
 	{
-		if ((*(info->stack_a))->content < info->lower)
+		if ((*(info->stack_b))->content < info->lower)
 		{
 			rra(info);
 			info->rotations++;
@@ -78,4 +81,3 @@ void	push_back(t_push_swap *info)
 	}
 	pa(info);
 }
-

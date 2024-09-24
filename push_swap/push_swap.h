@@ -46,8 +46,6 @@ void	swap(t_list **head);
 void	push(t_list **target, t_list **source);
 void	reverse_rotate(t_list **head);
 void	rotate(t_list **head);
-// int		find_max(t_list **head);
-// int		find_min(t_list **head);
 int		find_length(t_list **head);
 void	ra(t_push_swap	*info);
 void	rb(t_push_swap	*info);

@@ -1,37 +1,5 @@
 #include "push_swap.h"
 
-// int	find_max(t_list **head)
-// {
-// 	int		max;
-// 	t_list	*curr;
-
-// 	curr = *head;
-// 	max = curr->content;
-// 	while (curr->next)
-// 	{
-// 		curr = curr->next;
-// 		if (curr->content > max)
-// 			max = curr->content;
-// 	}
-// 	return (max);
-// }
-
-// int	find_min(t_list **head)
-// {
-// 	int		min;
-// 	t_list	*curr;
-
-// 	curr = *head;
-// 	min = curr->content;
-// 	while (curr->next)
-// 	{
-// 		curr = curr->next;
-// 		if (curr->content < min)
-// 			min = curr->content;
-// 	}
-// 	return (min);
-// }
-
 int max(int a, int b)
 {
 	if (b > a)
@@ -71,13 +39,14 @@ void	ft_lstclear(t_list **lst)
 {
 	t_list	*curr;
 
-	if (!lst)
+	if (lst == NULL)
 		return ;
 	while (*lst != NULL)
 	{
-		curr = *lst;
-		*lst = curr->next;
-		free(curr);
+		curr = (*lst)->next;
+		free(*lst);
+		*lst = curr;
+		
 	}
     free(lst);
 }
@@ -122,7 +91,7 @@ t_list	*ft_lstnew(int content)
 void	terminate(t_list **stack_a, t_list **stack_b)
 {
 	ft_lstclear(stack_a);
-    ft_lstclear(stack_a);
+    ft_lstclear(stack_b);
 	exit(1);
 }
 
@@ -154,4 +123,3 @@ t_list	**init_stack(int argc, char **argv)
 	}
 	return (head);
 }
-

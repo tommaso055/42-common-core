@@ -42,8 +42,8 @@ void    push_to_b(t_push_swap *info, int source_position, int target_position)
 	min_m = min(max(m.ra, m.rb), max(m.rra, m.rrb), m.ra + m.rrb, m.rb + m.rra);
 	if (max(m.ra, m.rb) <= min_m)
 		set_zero(&m.rra, &m.rrb);
-	else if (max(m.ra, m.rb) <= min_m)
-		set_zero(&m.rra, &m.rrb);
+	else if (max(m.rra, m.rrb) <= min_m)
+		set_zero(&m.ra, &m.rb);
 	else if(m.ra + m.rrb <= min_m)
 		set_zero(&m.rra, &m.rb);
 	else if(m.rb + m.rra <= min_m)
@@ -80,7 +80,7 @@ void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)
 {
 	*curr = *(info->stack_a);
 	vars->position = 1;
-	vars->least_moves = count_moves(info, vars->position, (*curr)->content);
+	vars->least_moves = count_moves(info, 0, (*curr)->content);
 	vars->best_content = (*curr)->content;
 	vars->best_position = 0;
 }
@@ -119,7 +119,7 @@ int	find_target_position(t_list **stack_b, int a_c)
 			t_position = position;
 			t_c = curr->content;
 		}
-		else if (t_c < a_c && curr->content < t_c)
+		else if (t_c < a_c && curr->content < a_c && curr->content > t_c)
 		{
 			t_position = position;
 			t_c = curr->content;
