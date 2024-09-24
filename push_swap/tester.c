@@ -115,8 +115,8 @@ void    push_to_b(t_push_swap *info, int source_position, int target_position)
 	min_m = min(max(m.ra, m.rb), max(m.rra, m.rrb), m.ra + m.rrb, m.rb + m.rra);
 	if (max(m.ra, m.rb) <= min_m)
 		set_zero(&m.rra, &m.rrb);
-	else if (max(m.ra, m.rb) <= min_m)
-		set_zero(&m.rra, &m.rrb);
+	else if (max(m.rra, m.rrb) <= min_m)
+		set_zero(&m.ra, &m.rb);
 	else if(m.ra + m.rrb <= min_m)
 		set_zero(&m.rra, &m.rb);
 	else if(m.rb + m.rra <= min_m)
@@ -192,7 +192,7 @@ int	find_target_position(t_list **stack_b, int a_c)
 			t_position = position;
 			t_c = curr->content;
 		}
-		else if (t_c < a_c && curr->content < t_c)
+		else if (t_c < a_c && curr->content < a_c && curr->content > t_c)
 		{
 			t_position = position;
 			t_c = curr->content;
@@ -332,8 +332,8 @@ int	main()
 {
 	t_push_swap	info;
 
-	int argc = 7;
-	char *argv[7] = {"push_swap", "1", "2", "3", "4", "5", "6"};
+	int argc = 10;
+	char *argv[10] = {"push_swap", "5", "2", "7", "1", "6", "3", "9", "4", "8"};
 
 	info.stack_a = init_stack(argc, argv);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
@@ -393,7 +393,7 @@ void	push_back(t_push_swap *info)
 {
 	if (info->rotations == 0)
 	{
-		if ((*(info->stack_a))->content < info->higher)
+		if ((*(info->stack_b))->content < info->higher)
 		{
 			rra(info);
 			info->rotations++;
@@ -401,7 +401,7 @@ void	push_back(t_push_swap *info)
 	}
 	if (info->rotations == 1)
 	{
-		if ((*(info->stack_a))->content < info->lower)
+		if ((*(info->stack_b))->content < info->lower)
 		{
 			rra(info);
 			info->rotations++;
