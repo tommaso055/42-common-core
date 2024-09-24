@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/24 20:01:24 by tdonato           #+#    #+#             */
+/*   Updated: 2024/09/24 20:01:26 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -26,7 +38,7 @@ typedef struct s_make_move
 	int		best_position;
 	int		least_moves;
 	int		moves;
-	int		target_position;
+	int		t_position;
 }	t_make_move;
 
 typedef struct s_moves
@@ -35,6 +47,9 @@ typedef struct s_moves
 	int	rb;
 	int	rra;
 	int	rrb;
+	int	position;
+	int	best_position;
+	int	best_content;
 }	t_moves;
 
 void	ft_lstclear(t_list **lst);
@@ -71,3 +86,5 @@ int		find_target_position(t_list **stack_b, int a_c);
 int		max(int a, int b);
 int		min(int a, int b, int c, int d);
 void	order_b(t_push_swap *info);
+void	set_vars_order_b(t_moves *moves);
+void	set_up(t_push_swap *info);
