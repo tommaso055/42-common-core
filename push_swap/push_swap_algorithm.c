@@ -70,10 +70,10 @@ void	arrange(t_push_swap *info, t_moves *moves)
 		ra(info);
 	while ((moves->rb)-- > 0)
 		rb(info);
-	while ((moves->ra)-- > 0)
-		ra(info);
-	while ((moves->ra)-- > 0)
-		ra(info);
+	while ((moves->rra)-- > 0)
+		rra(info);
+	while ((moves->rrb)-- > 0)
+		rrb(info);
 }
 
 void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)

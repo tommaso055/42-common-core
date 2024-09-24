@@ -1,12 +1,11 @@
 #include "push_swap.h"
 
-int	main()
+int	main(int argc, char **argv)
 {
 	t_push_swap	info;
 
-	int argc = 7;
-	char *argv[7] = {"push_swap", "1", "2", "6", "4", "3", "5"};
-
+	if (argc == 1)
+		return (0);
 	info.stack_a = init_stack(argc, argv);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
 	if (!info.stack_b)
@@ -29,7 +28,7 @@ int	main()
     order_b(&info);
 	while (info.length_b)
 		push_back(&info);
-	while (info.rotations < 2)
+	while (info.rotations++ < 2)
 		rra(&info);
 	terminate(info.stack_a, info.stack_b);
 }
@@ -76,10 +75,14 @@ void	order_b(t_push_swap *info)
         curr = curr->next;
         position++;
     }
+    moves.rrb = 0;
     moves.ra = 0;
-    moves.rb = best_position;
     moves.rra = 0;
-    moves.rrb = info->length_b - best_position;
+    moves.rb = 0;
+    if (best_position < info->length_b - best_position)
+        moves.rb = best_position;
+    else
+        moves.rrb = info->length_b - best_position;
     arrange(info, &moves);
 }
 

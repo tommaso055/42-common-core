@@ -144,10 +144,10 @@ void	arrange(t_push_swap *info, t_moves *moves)
 		ra(info);
 	while ((moves->rb)-- > 0)
 		rb(info);
-	while ((moves->ra)-- > 0)
-		ra(info);
-	while ((moves->ra)-- > 0)
-		ra(info);
+	while ((moves->rra)-- > 0)
+		rra(info);
+	while ((moves->rrb)-- > 0)
+		rrb(info);
 }
 
 void	set_make_move(t_push_swap *info, t_make_move *vars, t_list **curr)
@@ -333,8 +333,8 @@ int	main()
 {
 	t_push_swap	info;
 
-	int argc = 9;
-	char *argv[9] = {"push_swap", "4", "5", "7", "2", "3", "1", "8", "6"};
+	int argc = 11;
+	char *argv[11] = {"push_swap", "9", "6", "2", "7", "10", "5", "1", "4", "8", "3"};
 
 	info.stack_a = init_stack(argc, argv);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
@@ -358,7 +358,7 @@ int	main()
     order_b(&info);
 	while (info.length_b)
 		push_back(&info);
-	while (info.rotations < 2)
+	while (info.rotations++ < 2)
 		rra(&info);
 	terminate(info.stack_a, info.stack_b);
 }
@@ -405,10 +405,14 @@ void	order_b(t_push_swap *info)
         curr = curr->next;
         position++;
     }
+    moves.rrb = 0;
     moves.ra = 0;
-    moves.rb = best_position;
     moves.rra = 0;
-    moves.rrb = info->length_b - best_position;
+    moves.rb = 0;
+    if (best_position < info->length_b - best_position)
+        moves.rb = best_position;
+    else
+        moves.rrb = info->length_b - best_position;
     arrange(info, &moves);
 }
 
