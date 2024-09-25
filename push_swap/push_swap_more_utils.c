@@ -90,3 +90,14 @@ int	find_target_position(t_list **stack_b, int a_c)
 	}
 	return (t_position);
 }
+
+void	put_str(char *s)
+{
+	int	i;
+
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+		write (1, &s[i++], 1);
+}

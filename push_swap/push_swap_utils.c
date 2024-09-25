@@ -64,14 +64,16 @@ t_list	*ft_lstnew(int content)
 	return (list);
 }
 
-void	terminate(t_list **stack_a, t_list **stack_b)
+void	terminate(t_list **stack_a, t_list **stack_b, char *str)
 {
+	if (str)
+		put_str(str);
 	ft_lstclear(stack_a);
 	ft_lstclear(stack_b);
 	exit(1);
 }
 
-t_list	**init_stack(int argc, char **argv)
+t_list	**init_stack(int argc, char **argv, int start)
 {
 	int		i;
 	t_list	**head;
@@ -80,21 +82,21 @@ t_list	**init_stack(int argc, char **argv)
 
 	head = (t_list **)malloc(sizeof(t_list *));
 	if (!head)
-		terminate(NULL, NULL);
-	i = 1;
+		terminate(NULL, NULL, "Error\nMalloc error");
+	i = start;
 	n = ft_atoi(argv[i]);
-	if (!n && argv[i][0] != '0')
-		terminate(head, NULL);
+	if (!n && argv[i][0] != '0' && argv[i][1] != '\0')
+		terminate(head, NULL, "Error\nInvalid input");
 	*head = ft_lstnew(n);
 	last = (*head);
 	while (++i < argc)
 	{
 		n = ft_atoi(argv[i]);
-		if (!n && argv[i][0] != '0')
-			terminate(head, NULL);
+		if (!n && argv[i][0] != '0' && argv[i][1] != '\0')
+			terminate(head, NULL, "Error\nInvalid input");
 		last->next = ft_lstnew(n);
 		if (!(last->next))
-			terminate(head, NULL);
+			terminate(head, NULL, "Error\nMalloc error");
 		last = last->next;
 	}
 	return (head);

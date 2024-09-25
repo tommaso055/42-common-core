@@ -46,3 +46,25 @@ int	find_length(t_list **head)
 	}
 	return (length);
 }
+
+void	main_controls(t_push_swap *info)
+{
+	if (!info->stack_b)
+		terminate(info->stack_a, info->stack_b, "Error\nMalloc error");
+	*info->stack_b = NULL;
+	if (find_length(info->stack_a) < 2)
+		terminate(info->stack_a, info->stack_b, NULL);
+	if (check_duplicates(info->stack_a))
+		terminate(info->stack_a, info->stack_b, "Error\nInvalid input");
+}
+
+int	ft_matrixlen(char **s)
+{
+	int	i;
+
+	if (!s)
+		return (0);
+	while (s[i] != NULL)
+		i++;
+	return (i);
+}

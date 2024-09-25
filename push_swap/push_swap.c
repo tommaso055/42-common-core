@@ -22,21 +22,28 @@ void	set_up(t_push_swap *info)
 int	main(int argc, char **argv)
 {
 	t_push_swap	info;
+	char		**split;
+	int			i;
 
+	i = 0;
 	if (argc == 1)
 		return (0);
-	info.stack_a = init_stack(argc, argv);
+	if (argc == 2)
+	{
+		split = ft_split(argv[1], ' ');
+		info.stack_a = init_stack(ft_matrixlen(split), argv, 0);
+		while(split[i])
+			free(split[i++]);
+		free(split);
+	}
+	else
+		info.stack_a = init_stack(argc, argv, 1);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
-	if (!info.stack_b)
-		terminate(info.stack_a, info.stack_b);
-	*info.stack_b = NULL;
-	if (find_length(info.stack_a) < 2 || check_duplicates(info.stack_a))
-		terminate(info.stack_a, info.stack_b);
 	set_up(&info);
 	if (info.length_a == 2)
 	{
 		solve_two(&info);
-		terminate(info.stack_a, info.stack_b);
+		terminate(info.stack_a, info.stack_b, NULL);
 	}
 	pb(&info);
 	while (info.length_a > 2)
@@ -44,7 +51,7 @@ int	main(int argc, char **argv)
 	solve_two(&info);
 	order_b(&info);
 	push_back(&info);
-	terminate(info.stack_a, info.stack_b);
+	terminate(info.stack_a, info.stack_b, NULL);
 }
 
 int	check_duplicates(t_list **stack_a)
