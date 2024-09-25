@@ -98,3 +98,16 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		i++;
 	return (i);
 }
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (*str)
+	{
+		str++;
+		len++;
+	}
+	return (len);
+}

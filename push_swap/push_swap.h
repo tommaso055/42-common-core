@@ -95,3 +95,4 @@ size_t	next_word(char const *s, size_t i, char c, char **dst);
 char	**ft_split(char const *s, char c);
 int	ft_matrixlen(char **s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strlen(const char *str);

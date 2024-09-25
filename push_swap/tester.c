@@ -219,9 +219,10 @@ int	ft_matrixlen(char **s)
 {
 	int	i;
 
+	i = 0;
 	if (!s)
 		return (0);
-	while (s[i] != NULL)
+	while (s[i])
 		i++;
 	return (i);
 }
@@ -411,6 +412,7 @@ void	set_up(t_push_swap *info)
 	info->length_a = find_length(info->stack_a);
 	info->length_b = 0;
 	info->rotations = 0;
+	*(info->stack_b) = NULL;
 }
 
 int	main()
@@ -421,15 +423,15 @@ int	main()
 
 	i = 0;
 
-    int argc = 2;
-    char *argv[5] = {"si", "2 1 -1 0b"};
+    int argc = 5;
+    char *argv[5] = {"si", "2", "5", "0", "3 1 -1 4 6"};
 
 	if (argc == 1)
 		return (0);
 	if (argc == 2)
 	{
 		split = ft_split(argv[1], ' ');
-		info.stack_a = init_stack(ft_matrixlen(split), argv, 0);
+		info.stack_a = init_stack(ft_matrixlen(split), split, 0);
 		while(split[i])
 			free(split[i++]);
 		free(split);

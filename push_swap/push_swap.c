@@ -28,6 +28,8 @@ int	main(int argc, char **argv)
 	i = 0;
 	if (argc == 1)
 		return (0);
+
+	check_input(argc, argv);
 	if (argc == 2)
 	{
 		split = ft_split(argv[1], ' ');
