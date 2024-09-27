@@ -83,7 +83,9 @@ size_t	next_word(char const *s, size_t i, char c, char **dst);
 char	**ft_split(char const *s, char c);
 int	ft_matrixlen(char **s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-
+int ft_strncmp(char *s1, char *s2);
+void    check_input(int argc, char **argv);
+int ft_strlen(char *s);
 
 void	make_move(t_push_swap	*info)
 {
@@ -424,10 +426,11 @@ int	main()
 	i = 0;
 
     int argc = 5;
-    char *argv[5] = {"si", "2", "5", "0", "3 1 -1 4 6"};
+    char *argv[5] = {"si", "1", "2", "7", "3" "4"};
 
 	if (argc == 1)
 		return (0);
+	check_input(argc, argv);
 	if (argc == 2)
 	{
 		split = ft_split(argv[1], ' ');
@@ -720,4 +723,69 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	while (src[i])
 		i++;
 	return (i);
+}
+
+void    check_input(int argc, char **argv)
+{
+    int i;
+    int j;
+    int sign;
+    char *str;
+
+    i = 1;
+    sign = 1;
+    while (i < argc)
+    {
+        str = argv[0];
+        j = 0;
+        if (argv[i][0] == '+')
+        {
+            j++;
+            str++;
+        }
+        if (argv[i][0] == '-')
+        {
+            j++;
+            sign = -1;
+            str++;
+        }
+        while (argv[i][j])
+            {
+                if (argv[i][j] < '0' || argv[i][j] > '9')
+                    terminate(NULL, NULL, "Error\nInvalid input");
+                    j++;
+            }
+        
+        if (ft_strlen(str) > 10)
+            terminate(NULL, NULL, "Error\nInvalid input");
+        if (ft_strlen(str) == 10 && sign == -1 && ft_strncmp(str, "2147483648"))
+            terminate(NULL, NULL, "Error\nInvalid input");
+        if (ft_strlen(str) == 10 && sign == 1 && ft_strncmp(str, "2147483647"))
+            terminate(NULL, NULL, "Error\nInvalid input");
+		i++;
+    }
+}
+
+int ft_strlen(char *s)
+{
+	int l;
+
+	l = 0;
+	if (!s)
+		return (0);
+	while(s[l])
+		l++;
+	return (l);
+}
+
+int ft_strncmp(char *s1, char *s2)
+{
+    int i;
+
+	i = 0;
+    while(s1[i] && s2[i] && s1[i] == s2[i])
+        i++;
+    if (s1[i] > s2[i])
+        return (1);
+    return (0);
 }

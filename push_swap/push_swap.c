@@ -17,6 +17,7 @@ void	set_up(t_push_swap *info)
 	info->length_a = find_length(info->stack_a);
 	info->length_b = 0;
 	info->rotations = 0;
+	*(info->stack_b) = NULL;
 }
 
 int	main(int argc, char **argv)
@@ -26,19 +27,20 @@ int	main(int argc, char **argv)
 	int			i;
 
 	i = 0;
+
 	if (argc == 1)
 		return (0);
-
-	check_input(argc, argv);
 	if (argc == 2)
 	{
 		split = ft_split(argv[1], ' ');
-		info.stack_a = init_stack(ft_matrixlen(split), argv, 0);
+		check_input(ft_matrixlen(split), split, 0);
+		info.stack_a = init_stack(ft_matrixlen(split), split, 0);
 		while(split[i])
 			free(split[i++]);
 		free(split);
 	}
 	else
+		check_input(argc, argv, 1);
 		info.stack_a = init_stack(argc, argv, 1);
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
 	set_up(&info);

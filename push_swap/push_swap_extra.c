@@ -62,9 +62,10 @@ int	ft_matrixlen(char **s)
 {
 	int	i;
 
+	i = 0;
 	if (!s)
 		return (0);
-	while (s[i] != NULL)
+	while (s[i])
 		i++;
 	return (i);
 }
