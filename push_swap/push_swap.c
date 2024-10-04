@@ -31,8 +31,7 @@ int	main(int argc, char **argv)
 	set_up(&info);
 	if (info.length_a == 2)
 		solve_two(&info);
-	if (info.length_a <= 2)
-		terminate(info.stack_a, info.stack_b, NULL);
+	main_controls(&info);
 	pb(&info);
 	while (info.length_a > 2)
 		make_move(&info);
