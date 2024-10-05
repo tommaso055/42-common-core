@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   correction.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/05 21:30:06 by tdonato           #+#    #+#             */
+/*   Updated: 2024/10/05 21:30:12 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	in_order(t_list **stack_a)
@@ -13,7 +25,7 @@ int	in_order(t_list **stack_a)
 		if (curr->content <= prev)
 			return (0);
 		prev = curr->content;
-        curr = curr->next;
+		curr = curr->next;
 	}
 	return (1);
 }
