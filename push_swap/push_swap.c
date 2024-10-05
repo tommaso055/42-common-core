@@ -30,11 +30,6 @@ int	main(int argc, char **argv)
 	info.stack_b = (t_list **)malloc(sizeof(t_list *));
 	set_up(&info);
 	main_controls(&info);
-	if (info.length_a == 2)
-	{
-		solve_two(&info);
-		terminate(info.stack_a, info.stack_b, NULL);
-	}
 	pb(&info);
 	while (info.length_a > 2)
 		make_move(&info);

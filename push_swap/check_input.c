@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	check_input(int argc, char **argv, int i)
+void	check_input(int argc, char **argv, int i, char **to_free)
 {
 	int		j;
 	int		sign;
@@ -32,7 +32,7 @@ void	check_input(int argc, char **argv, int i)
 		while (argv[i][j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
-				terminate(NULL, NULL, "Error\nInvalid input");
+				terminate(to_free, NULL, "Error\nInvalid input");
 			j++;
 		}
 		handle_check(str, sign);
@@ -83,7 +83,7 @@ void	further_init_stack(int argc, char **argv, t_push_swap *info)
 	if (argc == 2)
 	{
 		split = ft_split(argv[1], ' ');
-		check_input(ft_matrixlen(split), split, 0);
+		check_input(ft_matrixlen(split), split, 0, split);
 		info->stack_a = init_stack(ft_matrixlen(split), split, 0);
 		while (split[i])
 			free(split[i++]);
@@ -91,7 +91,7 @@ void	further_init_stack(int argc, char **argv, t_push_swap *info)
 	}
 	else
 	{
-		check_input(argc, argv, 1);
+		check_input(argc, argv, 1, NULL);
 		info->stack_a = init_stack(argc, argv, 1);
 	}
 }
