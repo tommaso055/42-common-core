@@ -99,5 +99,5 @@ void	put_str(char *s)
 		return ;
 	i = 0;
 	while (s[i])
-		write (1, &s[i++], 1);
+		write (2, &s[i++], 1);
 }

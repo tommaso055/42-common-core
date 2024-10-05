@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	check_input(int argc, char **argv, int i, char **to_free)
+int	check_input(int argc, char **argv, int i)
 {
 	int		j;
 	int		sign;
@@ -22,32 +22,34 @@ void	check_input(int argc, char **argv, int i, char **to_free)
 	while (i < argc)
 	{
 		str = argv[i];
-		j = 0;
+		j = -1;
 		if (argv[i][0] == '-' || argv[i][0] == '+')
 			str++;
 		if (argv[i][0] == '+' || argv[i][0] == '-')
 			j++;
 		if (argv[i][0] == '-')
 			sign = -1;
-		while (argv[i][j])
+		while (argv[i][++j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
-				terminate(to_free, NULL, "Error\nInvalid input");
-			j++;
+				return (1);
 		}
-		handle_check(str, sign);
+		if (handle_check(str, sign))
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
-void	handle_check(char *str, int sign)
+int	handle_check(char *str, int sign)
 {
 	if (ft_strlen(str) > 10)
-		terminate(NULL, NULL, "Error\nInvalid input");
+		return (1);
 	if (ft_strlen(str) == 10 && sign == -1 && ft_strncmp(str, "2147483648"))
-		terminate(NULL, NULL, "Error\nInvalid input");
+		return (1);
 	if (ft_strlen(str) == 10 && sign == 1 && ft_strncmp(str, "2147483647"))
-		terminate(NULL, NULL, "Error\nInvalid input");
+		return (1);
+	return (0);
 }
 
 int	ft_strlen(char *s)
@@ -83,7 +85,13 @@ void	further_init_stack(int argc, char **argv, t_push_swap *info)
 	if (argc == 2)
 	{
 		split = ft_split(argv[1], ' ');
-		check_input(ft_matrixlen(split), split, 0, split);
+		if (check_input(ft_matrixlen(split), split, 0))
+		{
+			while (split[i])
+				free(split[i++]);
+			free(split);
+			terminate(NULL, NULL, "Error\n");
+		}
 		info->stack_a = init_stack(ft_matrixlen(split), split, 0);
 		while (split[i])
 			free(split[i++]);
@@ -91,7 +99,8 @@ void	further_init_stack(int argc, char **argv, t_push_swap *info)
 	}
 	else
 	{
-		check_input(argc, argv, 1, NULL);
+		if (check_input(argc, argv, 1))
+			terminate(NULL, NULL, "Error\n");
 		info->stack_a = init_stack(argc, argv, 1);
 	}
 }

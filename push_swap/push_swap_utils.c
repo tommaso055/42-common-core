@@ -82,21 +82,21 @@ t_list	**init_stack(int argc, char **argv, int start)
 
 	head = (t_list **)malloc(sizeof(t_list *));
 	if (!head)
-		terminate(NULL, NULL, "Error\nMalloc error");
+		terminate(NULL, NULL, "Error\n");
 	i = start;
 	n = ft_atoi(argv[i]);
 	if (!n && (argv[i][0] != '0' || argv[i][1] != '\0'))
-		terminate(head, NULL, "Error\nInvalid input");
+		terminate(head, NULL, "Error\n");
 	*head = ft_lstnew(n);
 	last = (*head);
 	while (++i < argc)
 	{
 		n = ft_atoi(argv[i]);
 		if (!n && (argv[i][0] != '0' || argv[i][1] != '\0'))
-			terminate(head, NULL, "Error\nInvalid input");
+			terminate(head, NULL, "Error\n");
 		last->next = ft_lstnew(n);
 		if (!(last->next))
-			terminate(head, NULL, "Error\nMalloc error");
+			terminate(head, NULL, "Error\n");
 		last = last->next;
 	}
 	return (head);

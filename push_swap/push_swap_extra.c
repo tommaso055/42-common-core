@@ -78,4 +78,3 @@ int	ft_matrixlen(char **s)
 		i++;
 	return (i);
 }
-
