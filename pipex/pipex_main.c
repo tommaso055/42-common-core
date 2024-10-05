@@ -1,5 +1,20 @@
 #include "pipex.h"
 
+void	put_err(char *str)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i])
+		write(2, &str[i++], 1);
+}
+
+void	terminate(char *str)
+{
+	put_err(str);
+	exit(1);
+}
+
 void	child_process(int *pipe_fd, char **argv, char **envp)
 {
 	int		fd;
@@ -17,7 +32,14 @@ void	child_process(int *pipe_fd, char **argv, char **envp)
 	cmd = ft_split(argv[2], ' ');
 	path = find_path(cmd[0], envp);
 
-	execve(path, cmd, envp);
+	if (execve(path, cmd, envp) == -1)
+	{
+		write(2, "qui", 3);
+		free(path);
+		destroy_matrix(cmd);
+		put_err("pipex: command not found: ");
+		terminate(cmd[0]);
+	}
 }
 
 void	parent_process(int *pipe_fd, char **argv, char **envp)
@@ -37,7 +59,14 @@ void	parent_process(int *pipe_fd, char **argv, char **envp)
 	cmd = ft_split(argv[3], ' ');
 	path = find_path(cmd[0], envp);
 
-	execve(path, cmd, envp);
+	if (execve(path, cmd, envp) == -1)
+	{
+		write(2, "quo", 3);
+		free(path);
+		destroy_matrix(cmd);
+		put_err("pipex: command not found: ");
+		terminate(cmd[0]);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -47,18 +76,18 @@ int	main(int argc, char **argv, char **envp)
 	int		pipe_fd[2];
 
 	if (argc != 5)
-		return (-1);
+		terminate("Error: only 5 arguments");
 	if(pipe(pipe_fd) == -1)
-		return (-1);
+		terminate("Error: failed pipe");
 	pid = fork();
 	if (pid == -1)
-		return (-1);
+		terminate("Error: failed fork");
 	if (pid == 0)
 		child_process(pipe_fd, argv, envp);
 	else
 	{
 		if (waitpid(pid, &wstatus, 0) == -1 || WIFEXITED(wstatus) == 0)
-			return (-1);
+			terminate("Error: failed child");
 		parent_process(pipe_fd, argv, envp);
 	}
 	
