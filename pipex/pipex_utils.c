@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdonato <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 19:38:11 by tdonato           #+#    #+#             */
+/*   Updated: 2024/10/07 19:38:13 by tdonato          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-void destroy_matrix(char **matrix)
+void	destroy_matrix(char **matrix)
 {
-    if (!matrix)
-        return;
-    for (int i = 0; matrix[i] != NULL; i++) {
-        free(matrix[i]);
-    }
-    free(matrix);
+	int	i;
+
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i] != NULL)
+		free(matrix[i++]);
+	free(matrix);
 }
 
 char	*find_path(char *cmd, char **envp)
@@ -17,18 +31,13 @@ char	*find_path(char *cmd, char **envp)
 	char	*path;
 
 	paths = NULL;
-	i = 0;
-	while (envp[i])
-		{
-		if (envp[i][0] == 'P' && envp[i][1] == 'A' && envp[i][2] == 'T' && envp[i][3] == 'H' && envp[i][4] == '=')
-			{
-				paths = ft_split(envp[i] + 5, ':');
-				break ;
-			}
-			i++;
-		}
-	if (!paths)
-		exit(-1);
+	i = -1;
+	while (envp[++i] && !paths)
+	{
+		if (envp[i][0] == 'P' && envp[i][1] == 'A' &&
+			envp[i][2] == 'T' && envp[i][3] == 'H' && envp[i][4] == '=')
+			paths = ft_split(envp[i] + 5, ':');
+	}
 	i = 0;
 	cmd = ft_strjoin("/", cmd);
 	path = ft_strjoin(paths[i], cmd);
@@ -36,7 +45,7 @@ char	*find_path(char *cmd, char **envp)
 	{
 		free(path);
 		if (!paths[i + 1])
-			exit(-1);
+			t("pipex: command not found: ", cmd + 1, cmd, paths);
 		path = ft_strjoin(paths[++i], cmd);
 	}
 	free(cmd);
