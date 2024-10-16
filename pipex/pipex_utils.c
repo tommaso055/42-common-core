@@ -24,20 +24,17 @@ void	destroy_matrix(char **matrix)
 	free(matrix);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd, char **envp, char **to_free)
 {
 	int		i;
 	char	**paths;
 	char	*path;
 
-	paths = NULL;
 	i = -1;
-	while (envp[++i] && !paths)
-	{
+	while (envp[++i])
 		if (envp[i][0] == 'P' && envp[i][1] == 'A' &&
 			envp[i][2] == 'T' && envp[i][3] == 'H' && envp[i][4] == '=')
 			paths = ft_split(envp[i] + 5, ':');
-	}
 	i = 0;
 	cmd = ft_strjoin("/", cmd);
 	path = ft_strjoin(paths[i], cmd);
@@ -45,7 +42,10 @@ char	*find_path(char *cmd, char **envp)
 	{
 		free(path);
 		if (!paths[i + 1])
+		{
+			destroy_matrix(to_free);
 			t("pipex: command not found: ", cmd + 1, cmd, paths);
+		}
 		path = ft_strjoin(paths[++i], cmd);
 	}
 	free(cmd);

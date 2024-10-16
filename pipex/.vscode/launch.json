@@ -5,7 +5,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/ft_split",  // Change this to your compiled output file
+            "program": "${workspaceFolder}/a.out",  // Change this to your compiled output file
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

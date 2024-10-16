@@ -42,7 +42,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 			dst[i - quotes] = src[i];
 			i++;
 		}
-		dst[i] = '\0';
+		dst[i - quotes] = '\0';
 	}
 	while (src[i])
 		i++;

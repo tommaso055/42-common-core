@@ -44,14 +44,16 @@ void	child_process(int *pipe_fd, char **argv, char **envp)
 
 	close(pipe_fd[0]);
 	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 && errno == ENOENT)
 		t("pipex: no such file or directory: ", argv[1], NULL, NULL);
+	if (fd == -1 && errno == EACCES)
+		t("pipex: permission denied: ", argv[1], NULL, NULL);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
 	cmd = ft_split(argv[2], ' ');
-	path = find_path(cmd[0], envp);
+	path = find_path(cmd[0], envp, cmd);
 	if (execve(path, cmd, envp) == -1)
 		t("pipex: command not found: ", cmd[0], path, cmd);
 }
@@ -66,12 +68,12 @@ void	parent_process(int *pipe_fd, char **argv, char **envp)
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (!fd)
-		t("pipex: no such file or directory: ", argv[1], NULL, NULL);
+	if (fd == -1 && errno == EACCES)
+		t("pipex: permission denied: ", argv[1], NULL, NULL);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	cmd = ft_split(argv[3], ' ');
-	path = find_path(cmd[0], envp);
+	path = find_path(cmd[0], envp, cmd);
 	if (execve(path, cmd, envp) == -1)
 		t("pipex: command not found: ", cmd[0], path, cmd);
 }
@@ -92,9 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	if (pid == 0)
 		child_process(pipe_fd, argv, envp);
 	else
-	{
-		if (waitpid(pid, &wstatus, 0) == -1 || WIFEXITED(wstatus) == 0)
-			exit(1);
 		parent_process(pipe_fd, argv, envp);
-	}
+	if (waitpid(pid, &wstatus, 0) == -1 || WIFEXITED(wstatus) == 0)
+		exit(1);
 }
