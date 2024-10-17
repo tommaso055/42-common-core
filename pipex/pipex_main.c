@@ -69,7 +69,7 @@ void	parent_process(int *pipe_fd, char **argv, char **envp)
 	close(pipe_fd[0]);
 	fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1 && errno == EACCES)
-		t("pipex: permission denied: ", argv[1], NULL, NULL);
+		t("pipex: permission denied: ", argv[4], NULL, NULL);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	cmd = ft_split(argv[3], ' ');
